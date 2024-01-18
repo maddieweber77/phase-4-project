@@ -1,14 +1,15 @@
 import React from "react";
-import App from "./App";
-import Home from "./Home";
-import ErrorPage from "./ErrorPage";
 import { createBrowserRouter } from 'react-router-dom';
 
+// Import other components after the router imports
+import App from "./App";
+import ErrorPage from "./ErrorPage";
+import Home from "./Home";
+import Login from "./Login";
 
 const Routes = createBrowserRouter([
-    
     {
-    path: "/",
+        path: "/",
         element: <App />,
         errorElement: <ErrorPage />,
         children: [
@@ -21,9 +22,9 @@ const Routes = createBrowserRouter([
                 element: <Login />
             },
         ]
-
-}])
-
+    }
+]);
 
 export default Routes;
+
 

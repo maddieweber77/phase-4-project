@@ -3,9 +3,9 @@
 function Header(){
 
     return(
-        <>
-        <h1 id='app-title'>MEMEWARS</h1>
-        </>
+        <div>
+            <h1 id='app-title'>MEMEWARS</h1>
+        </div>
     )
 }
 
