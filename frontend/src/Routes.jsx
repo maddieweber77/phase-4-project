@@ -5,9 +5,7 @@ import ErrorPage from "./ErrorPage";
 import { createBrowserRouter } from 'react-router-dom';
 
 
-function Routes(){
-
-cosnt = createBrowserRouter([
+const Routes = createBrowserRouter([
     
     {
     path: "/",
@@ -26,8 +24,6 @@ cosnt = createBrowserRouter([
 
 }])
 
-
-}
 
 export default Routes;
 
