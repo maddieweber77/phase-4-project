@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Navlink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import LoginForm from "./LoginForm";
 import Header from "./Header";
 
@@ -20,7 +20,6 @@ function LoginPage(){
 
     );
 }
-import Header from "./Header";
 
 
 export default LoginPage;
