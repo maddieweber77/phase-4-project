@@ -14,8 +14,8 @@ function Caption_Meme() {
             .then(response => response.json())
             .then(data => {
                 // Assuming the data is an array of memes
-                setMemes(data.memes);
-                setFeaturedMeme(data.memes[0]); // Set the initial featured meme
+                setMemes(data);
+                setFeaturedMeme(data[0]); // Set the initial featured meme
             })
             .catch(error => {
                 console.error("Error fetching memes:", error);
