@@ -4,22 +4,28 @@ import Header from "./Header";
 import LoginForm from "./LoginForm";
 
 
-function LoginPage(){
+function Login(){
 
-    const [login, setLogin] = useState(false)
+    const [username, setUsername] = useState('')
+    const [password, setPassword] = useState('')
 
-        
+    // function handleLoginSubmit(e) {
+        // e.preventDefault();
+        // if (username != {saved password}){
+            // return Error("Invalid Username/Password")
+        // }
+        // if (password!= {saved password}){
+            // return Error("Invalid Username/Password")
+        // }
+    // }
 
     return (
         <div>
-            <Header/> 
-            <h1 id='login-header'>MEMEWARS</h1>
-            <h2 id= 'login-text'>Login</h2>
-            <LoginForm />
+            <Header/>
+            <LoginForm/>
         </div>
+        )
+};
 
-    );
-}
 
-
-export default LoginPage;
+export default Login;
