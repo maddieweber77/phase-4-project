@@ -17,6 +17,7 @@ class User(db.Model, SerializerMixin):
     id = db.Column(db.Integer, primary_key = True)
     user_name = db.Column(db.String, nullable = False)
     password = db.Column(db.String, nullable = False)
+    password_hash = db.Column(db.String)
     profile_picture = db.Column(db.String, default = 'https://i.pinimg.com/736x/87/14/55/8714556a52021ba3a55c8e7a3547d28c.jpg')
     total_points = db.Column(db.Integer, default = 0)
 
