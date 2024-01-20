@@ -17,11 +17,11 @@ function Header(){
             {/* if the user is signed in, below button should be "Profile" but otherwise should be "Sign In". We also need to redirect them to either the signin page or the profile depending on the button*/}
             {isLoggedIn ? 
                 (
-                <NavLink to='/'>
+                <NavLink to='/Profile'>
                     <button>Profile</button>
                 </NavLink>
                 ) : (
-                <NavLink to='/Login'>
+                <NavLink to='/'>
                     <button>Login</button>
                 </NavLink>
                 )

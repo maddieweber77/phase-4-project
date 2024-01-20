@@ -7,4 +7,4 @@ function Leaderboard() {
     return
 }
 
-export default Leaderboard
+export default Leaderboard;
