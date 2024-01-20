@@ -21,7 +21,7 @@ function LoginForm() {
                 body: JSON.stringify(username, password)
             })
 
-            }),
+            })
 
             if (response.success){
                 return "Login Successful"
