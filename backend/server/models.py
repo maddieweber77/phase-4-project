@@ -23,6 +23,8 @@ class User(db.Model, SerializerMixin):
     memes = db.relationship("Meme", back_populates = 'creator', cascade = 'all, delete-orphan')
     responses = db.relationship("Response", back_populates = 'user', cascade = 'all, delete-orphan')
 
+    serialize_rules = ['-memes.creator', '-responses.user']
+
 
 class Connection(db.Model, SerializerMixin):
     __tablename__ = "connections"
@@ -48,7 +50,9 @@ class Meme(db.Model, SerializerMixin):
 
 
     creator = db.relationship("User", back_populates = 'memes')
-    responses = db.relationship('Response', back_populates = 'meme')
+    responses = db.relationship('Response', back_populates = 'meme', cascade = 'all, delete-orphan')
+
+    serialize_rules = ['-creator.memes', '-responses.meme']
 
 
 class Response(db.Model, SerializerMixin):
@@ -62,4 +66,6 @@ class Response(db.Model, SerializerMixin):
 
     meme = db.relationship('Meme', back_populates = 'responses')
     user = db.relationship('User', back_populates = 'responses')
+
+    serialize_rules = ['-meme.responses', '-user.responses']
 
