@@ -10,12 +10,6 @@ metadata = MetaData(naming_convention={
 
 db = SQLAlchemy(metadata=metadata)
 
-friend_connetion = db.Table(
-    'friend_connetions', metadata,
-    db.Column('requester_id', db.Integer, db.ForeignKey('users.id'), primary_key=True),
-    db.Column('acceptee_id', db.Integer, db.ForeignKey('users.id'), primary_key=True),
-    db.Column('friend_status', db.Integer)
-)
 
 class User(db.Model, SerializerMixin):
     __tablename__ = 'users'
@@ -24,11 +18,54 @@ class User(db.Model, SerializerMixin):
     user_name = db.Column(db.String, nullable = False)
     password = db.Column(db.String, nullable = False)
     profile_picture = db.Column(db.String, default = 'https://i.pinimg.com/736x/87/14/55/8714556a52021ba3a55c8e7a3547d28c.jpg')
+    total_points = db.Column(db.Integer, default = 0)
 
-    friends = db.relationship('User', secondary = friend_connetion,
-                              primaryjoin=id==friend_connetion.c.requester_id,
-                              secondaryjoin=id==friend_connetion.c.acceptee_id
-                              )
-    
-class Status(db.Model, SerializerMixin):
-    
+    memes = db.relationship("Meme", back_populates = 'creator', cascade = 'all, delete-orphan')
+    responses = db.relationship("Response", back_populates = 'user', cascade = 'all, delete-orphan')
+
+    serialize_rules = ['-memes.creator', '-responses.user']
+
+
+class Connection(db.Model, SerializerMixin):
+    __tablename__ = "connections"
+
+    id = db.Column(db.Integer, primary_key = True)
+    status = db.Column(db.Boolean, default = False)
+    requestee_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    acceptee_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+
+    requestee = db.relationship("User", foreign_keys=[requestee_id])
+    acceptee = db.relationship("User", foreign_keys=[acceptee_id])
+
+
+class Meme(db.Model, SerializerMixin):
+    __tablename__ = "memes"
+
+    id = db.Column(db.Integer, primary_key = True)
+    caption = db.Column(db.String, nullable = False)
+    img_url = db.Column(db.String, nullable = False)
+    creator_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    accepting_responses = db.Column(db.Boolean, default = True)
+    accepting_votes = db.Column(db.Boolean, default = False)
+
+
+    creator = db.relationship("User", back_populates = 'memes')
+    responses = db.relationship('Response', back_populates = 'meme', cascade = 'all, delete-orphan')
+
+    serialize_rules = ['-creator.memes', '-responses.meme']
+
+
+class Response(db.Model, SerializerMixin):
+    __tablename__ = "responses"
+
+    id = db.Column(db.Integer, primary_key = True)
+    meme_id = db.Column(db.Integer, db.ForeignKey('memes.id'))
+    contestant_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    response = db.Column(db.String, default = "")
+    score = db.Column(db.Integer, default = 0)
+
+    meme = db.relationship('Meme', back_populates = 'responses')
+    user = db.relationship('User', back_populates = 'responses')
+
+    serialize_rules = ['-meme.responses', '-user.responses']
+
