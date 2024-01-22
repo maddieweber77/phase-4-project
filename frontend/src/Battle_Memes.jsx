@@ -20,9 +20,10 @@ function Battle_Memes() {
         fetch("http://localhost:3000/memes")
             .then(response => response.json())
             .then(data => {
-                const totalMemes = data.memes.length;
-                setFeaturedMeme1(data.memes[0]); // Set initial featured memes
-                setFeaturedMeme2(data.memes[1]);
+                const totalMemes = data.length;
+                //! need to do a random number
+                setFeaturedMeme1(data[0]); // Set initial featured memes
+                setFeaturedMeme2(data[1]);
             })
             .catch(error => {
                 console.error("Error fetching memes:", error);
@@ -32,8 +33,8 @@ function Battle_Memes() {
     const showNextMeme = () => {
         const currentIndex = Math.floor(Math.random() * totalMemes);
         const nextIndex = (currentIndex + 1) % totalMemes;
-        setFeaturedMeme1(data.memes[nextIndex]);
-        setFeaturedMeme2(data.memes[nextIndex]);
+        setFeaturedMeme1(data[nextIndex]);
+        setFeaturedMeme2(data[nextIndex]);
     };
 
     const handleCaptionSubmit = () => {
