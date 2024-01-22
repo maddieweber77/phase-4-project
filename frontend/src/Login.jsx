@@ -6,18 +6,8 @@ import LoginForm from "./LoginForm";
 
 function Login(){
 
-    const [username, setUsername] = useState('')
-    const [password, setPassword] = useState('')
-
-    function handleLoginSubmit(e) {
-        e.preventDefault();
-        setUsername ? Error("Invalid Username/Password") : username;
-        setPassword ? Error("Invalid Username/Password") : password;
-    }
-
-
     return (
-        <div>
+        <div className="login-page-div">
             <Header/>
             <LoginForm/>
         </div>

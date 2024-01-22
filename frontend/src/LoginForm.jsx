@@ -21,7 +21,7 @@ function LoginForm() {
                 body: JSON.stringify(username, password)
             })
 
-            }),
+            })
 
             if (response.success){
                 return "Login Successful"
@@ -31,41 +31,33 @@ function LoginForm() {
 
         };
 
-
-        // setUsername ? Error("Invalid Username/Password") : username;
-        // setPassword ? Error("Invalid Username/Password") : password;
-
-         // if (username != {saved password}){
-        //     return Error("Invalid Username/Password")
-        // }
-        // if (password!= {saved password}){
-        //     return Error("Invalid Username/Password")
-        // }
     
 
     return(
         <form id='login-form' 
         onSubmit={handleLoginSubmit}
         >
-            <label>
+            <label className='login-text'>
             Username:
             </label>
             <input
                 type='text'
                 placeholder="Enter your username"
+                className='login-input'
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
             />
-            <label>
+            <label className='login-text'>
             Password:
             </label>
             <input
                 type='password'
                 placeholder="Enter your password"
+                className='login-input'
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
             />
-            <button type='submit'>Submit</button>
+            <button id='login-submit-button' type='submit'>Submit</button>
         </form>
     )
     };
