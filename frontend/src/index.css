@@ -127,33 +127,6 @@ button:focus-visible {
   color: #888;
 }
 
-.login-page-div {
-  display: flex;
-  flex-direction: column;
-}
-
-#login-form {
-  display: flex;
-  flex-direction: column;
-  width: min-content;
-  padding: 10px;
-}
-
-.login-text {
-  font-family: inherit;
-  color: #f9f9f9;
-  padding: 10px;
-}
-
-.login-input {
-  border-radius: 10px;
-  padding: 5px;
-}
-
-#login-submit-button {
-  margin-top: 10px;
-  padding: 0.3em 1.2em;
-}
 
 #root {
   max-width: 1280px;
@@ -238,4 +211,17 @@ button:focus-visible {
 #login-submit-button {
   margin-top: 10px;
   padding: 0.3em 1.2em;
+}
+
+/* *******PROFILE********* */
+
+.profile-info-div {
+  display: flex;
+  flex-direction: column;
+  width: min-content;
+  color: #f9f9f9
+}
+
+.profile-info {
+  color: #f9f9f9;
 }
