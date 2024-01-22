@@ -15,16 +15,38 @@ const Routes = createBrowserRouter([
         children: [
             {
                 path: "/",
-                element: <Home />,
-                errorElement: <ErrorPage />
-            },
-            {
-                path: "/Login",
                 element: <Login />,
                 errorElement: <ErrorPage />
             },
             {
-                path: ""
+                path: "/Home",
+                element: <Home />,
+                errorElement: <ErrorPage />
+            },
+            {
+                path: "/Profile",
+                element: <Profile />,
+                errorElement: <ErrorPage />
+            },
+            {
+                path: "/Create-Meme",
+                element: <Create_Meme />,
+                errorElement: <ErrorPage />
+            },
+            {
+                path: "/Caption-Meme",
+                element: <Caption_Meme />,
+                errorElement: <ErrorPage />
+            },
+            {
+                path: "/Battle-Meme",
+                element: <Battle_Meme />,
+                errorElement: <ErrorPage />
+            },
+            {
+                path: "/Leaderboard",
+                element: <Leaderboard />,
+                errorElement: <ErrorPage />
             }
         ]
     }
