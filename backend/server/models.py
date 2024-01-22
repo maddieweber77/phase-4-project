@@ -23,7 +23,7 @@ class User(db.Model, SerializerMixin):
     memes = db.relationship("Meme", back_populates = 'creator', cascade = 'all, delete-orphan')
     responses = db.relationship("Response", back_populates = 'user', cascade = 'all, delete-orphan')
 
-    serialize_rules = ['-memes.creator', '-responses.user']
+    serialize_rules = ['-memes.creator', '-responses.user', '-password']
 
 
 class Connection(db.Model, SerializerMixin):
