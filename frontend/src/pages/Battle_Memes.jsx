@@ -18,6 +18,9 @@ function Battle_Memes() {
     const [memes, setMemes] = useState([]); // Added state for storing meme data
     const [responses, setResponses] = useState([]);
 
+    let prevMemeId = null;
+    let currentIndex = null;
+
     useEffect(() => {
         // Fetch the list of responses and memes when the component mounts
         Promise.all([
@@ -49,25 +52,61 @@ function Battle_Memes() {
           });
       }, []); 
 
-    const showNextMeme = () => {
-        //! we need to make sure that it's a different # from last time
-        const currentIndex = Math.floor(Math.random() * totalMemes);
-        const nextIndex = (currentIndex + 1) % totalMemes;
+      const showNextMeme = () => {
+        // // Ensure that it's a different number from last time
+        // let currentIndex = Math.floor(Math.random() * totalMemes);
+        // Shuffle the array of indices
+        const shuffledIndices = [...Array(totalMemes).keys()].sort(() => Math.random() - 0.5);
+
+        // Find the next index that is different from the current and previous meme
+        let nextIndex = shuffledIndices.find(index => index !== currentIndex && memes[index].id !== prevMemeId);
+
+        // If all memes have been shown, shuffle again
+        if (nextIndex === undefined) {
+            // Shuffle the array of indices again
+            const shuffledAgain = [...Array(totalMemes).keys()].sort(() => Math.random() - 0.5);
+
+            // Find the next index that is different from the current and previous meme
+            nextIndex = shuffledAgain.find(index => index !== currentIndex && memes[index].id !== prevMemeId);
+        }
+
+        // Update the current index and previous meme ID
+        currentIndex = nextIndex;
+        prevMemeId = featuredMeme1.id;
+
+        // Update featured memes
         setFeaturedMeme1(memes[nextIndex]);
-        setFeaturedMeme2(memes[nextIndex]);
 
-        // Set responses for the next memes
-        setFeaturedCap1(getResponseByMemeId(memes[nextIndex].id));
-        setFeaturedCap2(getResponseByMemeId(memes[nextIndex].id));
+        // Set a random response for the next meme
+        setFeaturedCap1(getResponseByMemeId(memes[nextIndex].id, responses));
 
+        // Set the second featured meme to the same image as the first one
+        setFeaturedMeme2(featuredMeme1);
+
+        // Set a random response for the second featured meme
+        setFeaturedCap2(getResponseByMemeId(memes[nextIndex].id, responses));
     };
+
+    useEffect(() => {
+        // Use useEffect to handle side effects (e.g., fetching responses) after rendering
+        if (featuredMeme1.id) {
+            setFeaturedCap1(getResponseByMemeId(featuredMeme1.id, responses));
+        }
+        if (featuredMeme2.id) {
+            setFeaturedCap2(getResponseByMemeId(featuredMeme2.id, responses));
+        }
+    }, [featuredMeme1.id, featuredMeme2.id, responses]);
 
     const getResponseByMemeId = (memeId, responsesData) => {
         const responsesForMeme = responsesData.filter(response => response.meme_id === memeId);
-        console.log(responsesForMeme)
-        console.log("printing from getResponseByMemeId:")
-        console.log(responsesForMeme)
-        return responsesForMeme[0]?.response || "";
+        
+        console.log("Printing from getResponseByMemeId:");
+        console.log(responsesForMeme);
+    
+        // Generate a random index within the length of the subarray
+        const randomIndex = Math.floor(Math.random() * responsesForMeme.length);
+    
+        return responsesForMeme[randomIndex]?.response || "";
     };
 
     return (
