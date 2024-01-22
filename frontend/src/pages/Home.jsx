@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
-import Header from "./Header";
+import Header from "../components/Header";
 import Battle_Memes from "./Battle_Memes";
 import Caption_Meme from "./Caption_Meme";
 
@@ -53,6 +53,7 @@ function Home() {
             <button onClick={() => setActiveComponent("Caption Meme")}>Caption Meme</button>
             <button onClick={() => setActiveComponent("Battle Memes")}>Battle Memes</button>
             <button onClick={() => setActiveComponent("Leaderboard")}>Leaderboard</button>
+
 
             {/* Render the active component based on the state */}
             {renderComponent()}

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
-import Header from "./Header";
+import Header from "../components/Header";
 
 
 function Caption_Meme() {
