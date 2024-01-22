@@ -6,12 +6,6 @@ import App from "./App";
 import ErrorPage from "./pages/ErrorPage";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
-import Profile from "./pages/Profile";
-import Create_Meme from "./pages/Create_Meme";
-import Caption_Meme from "./pages/Caption_Meme";
-import Battle_Memes from "./pages/Battle_Memes";
-import Leaderboard from "./pages/Leaderboard";
-
 
 const Routes = createBrowserRouter([
     {
