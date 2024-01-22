@@ -12,7 +12,7 @@ function Battle_Memes() {
     // featured captions -- these should initially be set to random captions (within a given meme)
     const [featuredCap1, setFeaturedCap1] = useState("");
     const [featuredCap2, setFeaturedCap2] = useState("");
-    const [dataLoaded, setDataLoaded] = useState(false);
+    const [dataLoaded, setDataLoaded] = useState(true);
     const [caption, setCaption] = useState(""); // Define caption state
     const [totalMemes, setTotalMemes] = useState(0); // Use state to track # of totalMemes
     const [memes, setMemes] = useState([]); // Added state for storing meme data
