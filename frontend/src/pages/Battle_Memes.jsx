@@ -49,18 +49,25 @@ function Battle_Memes() {
           });
       }, []); 
 
-    const showNextMeme = () => {
-        //! we need to make sure that it's a different # from last time
+      const showNextMeme = () => {
+        // Ensure that it's a different number from last time
         const currentIndex = Math.floor(Math.random() * totalMemes);
         const nextIndex = (currentIndex + 1) % totalMemes;
+
+        // Update featured memes
         setFeaturedMeme1(memes[nextIndex]);
         setFeaturedMeme2(memes[nextIndex]);
-
-        // Set responses for the next memes
-        setFeaturedCap1(getResponseByMemeId(memes[nextIndex].id));
-        setFeaturedCap2(getResponseByMemeId(memes[nextIndex].id));
-
     };
+    
+    useEffect(() => {
+        // Use useEffect to handle side effects (e.g., fetching responses) after rendering
+        if (featuredMeme1.id) {
+            setFeaturedCap1(getResponseByMemeId(featuredMeme1.id, responses));
+        }
+        if (featuredMeme2.id) {
+            setFeaturedCap2(getResponseByMemeId(featuredMeme2.id, responses));
+        }
+    }, [featuredMeme1.id, featuredMeme2.id, responses]);
 
     const getResponseByMemeId = (memeId, responsesData) => {
         const responsesForMeme = responsesData.filter(response => response.meme_id === memeId);
