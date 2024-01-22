@@ -56,21 +56,21 @@
             "id": 1,
             "name": "Girl Burning House",
             "img_url": "https://static01.nyt.com/images/2021/04/30/multimedia/30xp-meme/29xp-meme-articleLarge-v3.jpg?quality=75&auto=webp&disable=upscale",
-            "caption": "This kid is so silly",
+            "caption": "MWAHAHA",
             "creator_id": 3
         },
         {
             "id": 2,
             "name": "Kid Drinking Milkshake",
             "img_url": "https://i.pinimg.com/236x/06/d2/68/06d2688635941034272ed460d1269c2b.jpg",
-            "caption": "This kid is so silly",
+            "caption": "WELP",
             "creator_id": 1
         },
         {
             "id": 3,
             "name": "Disgusted Little Girl",
             "img_url": "https://miro.medium.com/v2/resize:fit:908/1*vSA5V7skyN-xJAfMLGJqTA.jpeg",
-            "caption": "This kid is so silly",
+            "caption": "EW!",
             "creator_id": 2
         }
     ],
