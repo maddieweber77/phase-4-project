@@ -1,11 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import Header from "./Header";
-import Random;
-
-
-// Placeholder import for Random, update it accordingly
-import Random from "random";
+// import Random from "random";
 
 function Battle_Memes() {
     // featured meme - these should originally just be set to a random meme in our database
