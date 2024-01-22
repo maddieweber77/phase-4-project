@@ -58,7 +58,7 @@ function Battle_Memes() {
         setFeaturedMeme1(memes[nextIndex]);
         setFeaturedMeme2(memes[nextIndex]);
     };
-    
+
     useEffect(() => {
         // Use useEffect to handle side effects (e.g., fetching responses) after rendering
         if (featuredMeme1.id) {
@@ -71,10 +71,14 @@ function Battle_Memes() {
 
     const getResponseByMemeId = (memeId, responsesData) => {
         const responsesForMeme = responsesData.filter(response => response.meme_id === memeId);
-        console.log(responsesForMeme)
-        console.log("printing from getResponseByMemeId:")
-        console.log(responsesForMeme)
-        return responsesForMeme[0]?.response || "";
+        
+        console.log("Printing from getResponseByMemeId:");
+        console.log(responsesForMeme);
+    
+        // Generate a random index within the length of the subarray
+        const randomIndex = Math.floor(Math.random() * responsesForMeme.length);
+    
+        return responsesForMeme[randomIndex]?.response || "";
     };
 
     return (

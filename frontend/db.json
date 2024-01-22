@@ -78,22 +78,43 @@
         {
             "id": 1,
             "meme_id": 1,
-            "contestant_id": 2,
+            "contestant_id": 3,
             "response": "Random String",
             "score": 5
         },
         {
             "id": 2,
-            "meme_id": 1,
+            "meme_id": 2,
             "contestant_id": 1,
             "response": "Random String2",
             "score": 3
         },
         {
             "id": 3,
-            "meme_id": 2,
+            "meme_id": 3,
             "contestant_id": 2,
             "response": "Random String 3",
+            "score": 55
+        },
+        {
+            "id": 4,
+            "meme_id": 1,
+            "contestant_id": 3,
+            "response": "Random String 4",
+            "score": 5
+        },
+        {
+            "id": 5,
+            "meme_id": 2,
+            "contestant_id": 1,
+            "response": "Random String 5",
+            "score": 3
+        },
+        {
+            "id": 6,
+            "meme_id": 3,
+            "contestant_id": 2,
+            "response": "Random String 6",
             "score": 55
         }
     ]
