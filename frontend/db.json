@@ -1,121 +1,121 @@
 {
-    "users": [
-        {
-            "id": 1,
-            "user_name": "Maddie Weber",
-            "profile_picture": "https://cdn11.bigcommerce.com/s-nf2x4/images/stencil/1280x1280/products/246/9133/Computer-Geek-Rubber-Duck-Schanables-3__49617.1644583506.jpg?c=2",
-            "username": "maddieweber7",
-            "password": "helloitsmaddie",
-            "total_points": 3
-        },
-        {
-            "id": 2,
-            "user_name": "Daniel Morley",
-            "profile_picture": "https://www.essexduck.com/uploads/1/3/2/0/132064494/s101382617522703170_p335_i1_w500.jpeg",
-            "username": "danielmorley1",
-            "password": "helloitsdaniel",
-            "total_points": 2
-        },
-        {
-            "id": 3,
-            "user_name": "Ethan Hessler",
-            "profile_picture": "https://res.cloudinary.com/teepublic/image/private/s--qPJEf-Tj--/c_crop,x_10,y_10/c_fit,w_1109/c_crop,g_north_west,h_1260,w_1260,x_-112,y_-76/co_rgb:0f0f0f,e_colorize,u_Misc:One%20Pixel%20Gray/c_scale,g_north_west,h_1260,w_1260/fl_layer_apply,g_north_west,x_-112,y_-76/bo_157px_solid_white/e_overlay,fl_layer_apply,h_1260,l_Misc:Art%20Print%20Bumpmap,w_1260/e_shadow,x_6,y_6/c_limit,h_1134,w_1134/c_lpad,g_center,h_1260,w_1260/b_rgb:eeeeee/c_limit,f_auto,h_630,q_90,w_630/v1627667803/production/designs/23373019_0.jpg",
-            "username": "ethanhessler2",
-            "password": "helloitsethan",
-            "total_points": 1
-        }
-    ], 
-    "connections": [
-        {
-            "id": 1,
-            "status": "False",
-            "requestee_id": 1,
-            "acceptee_id": 2
-        },
-        {
-            "id": 2,
-            "status": "True",
-            "requestee_id": 1,
-            "acceptee_id": 3
-        },
-        {
-            "id": 3,
-            "status": "False",
-            "requestee_id": 2,
-            "acceptee_id": 1
-        },
-        {
-            "id": 4,
-            "status": "True",
-            "requestee_id": 3,
-            "acceptee_id": 1
-        }
-    ],
-    "memes": [
-        {
-            "id": 1,
-            "name": "Girl Burning House",
-            "img_url": "https://static01.nyt.com/images/2021/04/30/multimedia/30xp-meme/29xp-meme-articleLarge-v3.jpg?quality=75&auto=webp&disable=upscale",
-            "caption": "MWAHAHA",
-            "creator_id": 3
-        },
-        {
-            "id": 2,
-            "name": "Kid Drinking Milkshake",
-            "img_url": "https://i.pinimg.com/236x/06/d2/68/06d2688635941034272ed460d1269c2b.jpg",
-            "caption": "WELP",
-            "creator_id": 1
-        },
-        {
-            "id": 3,
-            "name": "Disgusted Little Girl",
-            "img_url": "https://miro.medium.com/v2/resize:fit:908/1*vSA5V7skyN-xJAfMLGJqTA.jpeg",
-            "caption": "EW!",
-            "creator_id": 2
-        }
-    ],
-    "responses": [
-        {
-            "id": 1,
-            "meme_id": 1,
-            "contestant_id": 3,
-            "response": "Random String",
-            "score": 5
-        },
-        {
-            "id": 2,
-            "meme_id": 2,
-            "contestant_id": 1,
-            "response": "Random String2",
-            "score": 3
-        },
-        {
-            "id": 3,
-            "meme_id": 3,
-            "contestant_id": 2,
-            "response": "Random String 3",
-            "score": 55
-        },
-        {
-            "id": 4,
-            "meme_id": 1,
-            "contestant_id": 3,
-            "response": "Random String 4",
-            "score": 5
-        },
-        {
-            "id": 5,
-            "meme_id": 2,
-            "contestant_id": 1,
-            "response": "Random String 5",
-            "score": 3
-        },
-        {
-            "id": 6,
-            "meme_id": 3,
-            "contestant_id": 2,
-            "response": "Random String 6",
-            "score": 55
-        }
-    ]
+  "users": [
+    {
+      "id": 1,
+      "user_name": "Maddie Weber",
+      "profile_picture": "https://cdn11.bigcommerce.com/s-nf2x4/images/stencil/1280x1280/products/246/9133/Computer-Geek-Rubber-Duck-Schanables-3__49617.1644583506.jpg?c=2",
+      "username": "maddieweber7",
+      "password": "helloitsmaddie",
+      "total_points": 3
+    },
+    {
+      "id": 2,
+      "user_name": "Daniel Morley",
+      "profile_picture": "https://www.essexduck.com/uploads/1/3/2/0/132064494/s101382617522703170_p335_i1_w500.jpeg",
+      "username": "danielmorley1",
+      "password": "helloitsdaniel",
+      "total_points": 2
+    },
+    {
+      "id": 3,
+      "user_name": "Ethan Hessler",
+      "profile_picture": "https://res.cloudinary.com/teepublic/image/private/s--qPJEf-Tj--/c_crop,x_10,y_10/c_fit,w_1109/c_crop,g_north_west,h_1260,w_1260,x_-112,y_-76/co_rgb:0f0f0f,e_colorize,u_Misc:One%20Pixel%20Gray/c_scale,g_north_west,h_1260,w_1260/fl_layer_apply,g_north_west,x_-112,y_-76/bo_157px_solid_white/e_overlay,fl_layer_apply,h_1260,l_Misc:Art%20Print%20Bumpmap,w_1260/e_shadow,x_6,y_6/c_limit,h_1134,w_1134/c_lpad,g_center,h_1260,w_1260/b_rgb:eeeeee/c_limit,f_auto,h_630,q_90,w_630/v1627667803/production/designs/23373019_0.jpg",
+      "username": "ethanhessler2",
+      "password": "helloitsethan",
+      "total_points": 1
+    }
+  ],
+  "connections": [
+    {
+      "id": 1,
+      "status": "False",
+      "requestee_id": 1,
+      "acceptee_id": 2
+    },
+    {
+      "id": 2,
+      "status": "True",
+      "requestee_id": 1,
+      "acceptee_id": 3
+    },
+    {
+      "id": 3,
+      "status": "False",
+      "requestee_id": 2,
+      "acceptee_id": 1
+    },
+    {
+      "id": 4,
+      "status": "True",
+      "requestee_id": 3,
+      "acceptee_id": 1
+    }
+  ],
+  "memes": [
+    {
+      "id": 1,
+      "name": "Girl Burning House",
+      "img_url": "https://static01.nyt.com/images/2021/04/30/multimedia/30xp-meme/29xp-meme-articleLarge-v3.jpg?quality=75&auto=webp&disable=upscale",
+      "caption": "MWAHAHA",
+      "creator_id": 3
+    },
+    {
+      "id": 2,
+      "name": "Kid Drinking Milkshake",
+      "img_url": "https://i.pinimg.com/236x/06/d2/68/06d2688635941034272ed460d1269c2b.jpg",
+      "caption": "WELP",
+      "creator_id": 1
+    },
+    {
+      "id": 3,
+      "name": "Disgusted Little Girl",
+      "img_url": "https://miro.medium.com/v2/resize:fit:908/1*vSA5V7skyN-xJAfMLGJqTA.jpeg",
+      "caption": "EW!",
+      "creator_id": 2
+    }
+  ],
+  "responses": [
+    {
+      "id": 1,
+      "meme_id": 1,
+      "contestant_id": 3,
+      "response": "Random String",
+      "score": 5
+    },
+    {
+      "id": 2,
+      "meme_id": 2,
+      "contestant_id": 1,
+      "response": "Random String2",
+      "score": 3
+    },
+    {
+      "id": 3,
+      "meme_id": 3,
+      "contestant_id": 2,
+      "response": "Random String 3",
+      "score": 55
+    },
+    {
+      "id": 4,
+      "meme_id": 1,
+      "contestant_id": 3,
+      "response": "Random String 4",
+      "score": 5
+    },
+    {
+      "id": 5,
+      "meme_id": 2,
+      "contestant_id": 1,
+      "response": "Random String 5",
+      "score": 3
+    },
+    {
+      "id": 6,
+      "meme_id": 3,
+      "contestant_id": 2,
+      "response": "Random String 6",
+      "score": 55
+    }
+  ]
 }
