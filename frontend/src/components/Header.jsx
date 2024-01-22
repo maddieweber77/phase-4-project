@@ -5,8 +5,6 @@ import { NavLink } from "react-router-dom";
 
 function Header(){
 
-    const [isLoggedIn, setIsLoggedIn] = useState(false)
-
     return(
         <div className="header-div">
             <h1 id='app-title'>BATTLEMEMES</h1>
@@ -16,17 +14,11 @@ function Header(){
             <NavLink to='/Profile'>
                 <button>Profile</button>
             </NavLink>
-            <NavLink to='/Create-Meme'>
-                <button>Create Meme</button>
-            </NavLink>
             <NavLink to='/Caption-Meme'>
                 <button>Caption Meme</button>
             </NavLink>
             <NavLink to='/Battle-Memes'>
                 <button>Battle Memes</button>
-            </NavLink>
-            <NavLink to='/Leaderboard'>
-                <button>Leaderboard</button>
             </NavLink>
             <NavLink to='/'>
                 <button>Logout</button>
