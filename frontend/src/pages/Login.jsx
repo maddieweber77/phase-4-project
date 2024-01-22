@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { NavLink } from 'react-router-dom';
 import Header from "../components/Header";
-import LoginForm from "../LoginForm";
+import LoginForm from "../components/LoginForm";
 
 
 function Login(){
