@@ -1,8 +1,20 @@
 #root {
   max-width: 1280px;
+  min-width: 320px;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+}
+
+/* HEADER */
+.header-div {
+  top: 0%;
+  width: 100%;
+  padding: 1rem;
+}
+
+#app-title {
+  font-size: 2.0em;
 }
 
 .logo {
@@ -39,4 +51,34 @@
 
 .read-the-docs {
   color: #888;
+}
+
+/* Login page */
+
+.login-page-div {
+  display: flex;
+  flex-direction: column;
+}
+
+#login-form {
+  display: flex;
+  flex-direction: column;
+  width: min-content;
+  padding: 10px;
+}
+
+.login-text {
+  font-family: inherit;
+  color: #f9f9f9;
+  padding: 10px;
+}
+
+.login-input {
+  border-radius: 10px;
+  padding: 5px;
+}
+
+#login-submit-button {
+  margin-top: 10px;
+  padding: 0.3em 1.2em;
 }

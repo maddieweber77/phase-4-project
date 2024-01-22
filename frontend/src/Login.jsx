@@ -4,22 +4,15 @@ import Header from "./Header";
 import LoginForm from "./LoginForm";
 
 
-function LoginPage(){
-
-    const [login, setLogin] = useState(false)
-
-        
+function Login(){
 
     return (
-        <div>
-            <Header/> 
-            <h1 id='login-header'>MEMEWARS</h1>
-            <h2 id= 'login-text'>Login</h2>
-            <LoginForm />
+        <div className="login-page-div">
+            <Header/>
+            <LoginForm/>
         </div>
+        )
+};
 
-    );
-}
 
-
-export default LoginPage;
+export default Login;
