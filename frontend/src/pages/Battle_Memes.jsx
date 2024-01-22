@@ -37,7 +37,8 @@ function Battle_Memes() {
             setFeaturedMeme1(initialMeme);
             setFeaturedMeme2(initialMeme);
     
-            const initialResponse = getResponseByMemeId(initialMeme.id);
+            const initialResponse = getResponseByMemeId(initialMeme.id, responsesData);
+            console.log(initialResponse)
             setFeaturedCap1(initialResponse);
             setFeaturedCap2(initialResponse);
 
@@ -61,10 +62,11 @@ function Battle_Memes() {
 
     };
 
-    const getResponseByMemeId = (memeId) => {
-        const responsesForMeme = responses.filter(response => response.meme_id === memeId);
+    const getResponseByMemeId = (memeId, responsesData) => {
+        const responsesForMeme = responsesData.filter(response => response.meme_id === memeId);
+        console.log(responsesForMeme)
         console.log("printing from getResponseByMemeId:")
-        console.log(responsesForMeme[0]?.response)
+        console.log(responsesForMeme)
         return responsesForMeme[0]?.response || "";
     };
 
@@ -78,7 +80,7 @@ function Battle_Memes() {
               width="100%"
               alt="Meme"
             />
-            {dataLoaded && <p>{featuredCap1}</p>}
+            <p>{featuredCap1}</p>
     
             <img
               src={featuredMeme2.img_url}
@@ -86,7 +88,7 @@ function Battle_Memes() {
               width="100%"
               alt="Meme"
             />
-            {dataLoaded && <p>{featuredCap2}</p>}
+            <p>{featuredCap2}</p>
           </div>
     
           <button>Submit</button>
