@@ -3,7 +3,7 @@ from random import randint, choice as rc
 from faker import Faker
 
 from app import app
-from models import db, User, Connection, Meme, Response
+from models import db, User, Connection, Meme, Response, Ballot
 from flask_bcrypt import Bcrypt
 # Authentication
 
@@ -68,6 +68,15 @@ if __name__ == '__main__':
             for connection in range(len(friends_list)):
                 new_response = Response(meme_id = meme.id, contestant_id = friends_list[connection].id, response = fake.sentence(), score = randint(0, 5))
                 db.session.add(new_response)
+                responses.append(new_response)
+        db.session.commit()
+
+#seed ballots
+        ballots = []
+        for x in range(len(responses)):
+            for _ in range(3):
+                new_ballot = Ballot(response_id = responses[x].id, voter_id = randint(1, 21), score = randint(1, 5))
+                db.session.add(new_ballot)
                 responses.append(new_response)
         db.session.commit()
 

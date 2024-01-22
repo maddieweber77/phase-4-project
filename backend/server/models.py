@@ -23,8 +23,9 @@ class User(db.Model, SerializerMixin):
 
     memes = db.relationship("Meme", back_populates = 'creator', cascade = 'all, delete-orphan')
     responses = db.relationship("Response", back_populates = 'user', cascade = 'all, delete-orphan')
+    ballots = db.relationship('Ballot', back_populates='voter', cascade = 'all, delete-orphan')
 
-    serialize_rules = ['-memes.creator', '-responses.user', '-password']
+    serialize_rules = ['-memes.creator', '-responses.user', '-password', '-ballots.voter']
 
 
 class Connection(db.Model, SerializerMixin):
@@ -67,6 +68,20 @@ class Response(db.Model, SerializerMixin):
 
     meme = db.relationship('Meme', back_populates = 'responses')
     user = db.relationship('User', back_populates = 'responses')
+    ballots = db.relationship('Ballot', back_populates = 'response', cascade = 'all, delete-orphan')
 
-    serialize_rules = ['-meme.responses', '-user.responses']
+    serialize_rules = ['-meme.responses', '-user.responses', 'ballots.response']
+
+class Ballot(db.Model, SerializerMixin):
+    __tablename__ = "ballots"
+
+    id = db.Column(db.Integer, primary_key = True)
+    response_id = db.Column(db.Integer, db.ForeignKey('responses.id'))
+    voter_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    score = db.Column(db.Integer, default = 0)
+
+    response = db.relationship('Response', back_populates='ballots')
+    voter = db.relationship('User', back_populates='ballots')
+
+    serialize_rules = ['-response.ballots', '-voter.ballots']
 
