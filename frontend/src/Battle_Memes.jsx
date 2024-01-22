@@ -45,7 +45,9 @@ function Battle_Memes() {
     };
 
     const handleCaptionSubmit = () => {
-        fetch(`http://localhost:3000/memes/${featuredMeme1.descriptions}`, {
+        const memeId = featuredMeme1.id; // Assuming id is the property containing the ID
+    
+        fetch(`http://localhost:3000/memes/${memeId}/descriptions`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -61,7 +63,7 @@ function Battle_Memes() {
         .catch(error => {
             console.error("Error adding description:", error);
         });
-
+    
         showNextMeme();
         setCaption("");
     };
