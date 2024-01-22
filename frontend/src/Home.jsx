@@ -21,7 +21,7 @@ function Home() {
             <h1>Vite + React</h1>
             <div className="card">
                 <NavLink to='/Login'>
-                    <button id='login-button' className='home-text'>Login</button>
+                    <button id='login-button' className='button-text'>Login</button>
                 </NavLink>
             <p>
                 Edit <code>src/App.jsx</code> and save to test HMR
