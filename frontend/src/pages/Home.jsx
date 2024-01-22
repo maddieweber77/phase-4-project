@@ -1,62 +1,43 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import Header from "../components/Header";
-import Battle_Memes from "./Battle_Memes";
-import Caption_Meme from "./Caption_Meme";
 
 function Home() {
-    const [activeComponent, setActiveComponent] = useState(null);
+    const [userMemes, setUserMemes] = useState({})
+    const [memesToBeCaptioned, setMemesToBeCaptioned] = useState({})
+    const [memesToBeVotedOn, setMemesToBeVotedOn] = useState({})
+    const [completedMemes, setCompletedMemes] = useState({})
+    const [friends, setFriends] = useState({})
+    const [notFriends, setNotFriends] = useState({})
 
-    const renderComponent = () => {
-        switch (activeComponent) {
-            case "Submit Meme":
-                return <SubmitMemeComponent />;
-            case "Caption Meme":
-                return <CaptionMemeComponent />;
-            case "Battle Memes":
-                return <BattleMemesComponent />;
-            case "Leaderboard":
-                return <LeaderboardComponent />;
-            default:
-                return null;
-        }
-    };
+    useEffect(() => {
+        //fetches all memes that the user has created
+        fetch('http://localhost:3000/memes').then(resp = resp.json()).then(data = setUserMemes(data))
+        //fetches all memes that the user needs to caption
+        fetch('http://localhost:3000/memes').then(resp = resp.json()).then(data = setMemesToBeCaptioned(data))
+        //fetches all memes that the user needs to vote on
+        fetch('http://localhost:3000/memes').then(resp = resp.json()).then(data = setMemesToBeVotedOn(data))
+        //fetches all memes that the are complete
+        fetch('http://localhost:3000/memes').then(resp = resp.json()).then(data = setCompletedMemes(data))
+        //fetches all friends of that user
+        fetch('http://localhost:3000/friends').then(resp = resp.json()).then(data = setFriends(data))
+        //fetches users who are not currently friends
+        fetch('http://localhost:3000/users').then(resp = resp.json()).then(data = setNotFriends(data))
+    }, [])
 
-    const SubmitMemeComponent = () => (
-        // Define the component for "Submit Meme"
-        <div>
-            {/* Your Submit Meme component content goes here */}
-        </div>
-    );
-
-    const CaptionMemeComponent = () => (
-        // Render the Caption_Meme component when "Caption Meme" button is clicked
-        <Caption_Meme />
-    );
-
-    const BattleMemesComponent = () => (
-        // Define the component for "Battle Memes"
-        <Battle_Memes />
-    );
-
-    const LeaderboardComponent = () => (
-        // Define the component for "Leaderboard"
-        <div>
-            {/* Your Leaderboard component content goes here */}
-        </div>
-    );
 
     return (
         <main>
             <Header />
-            <button onClick={() => setActiveComponent("Submit Meme")}>Submit Meme</button>
-            <button onClick={() => setActiveComponent("Caption Meme")}>Caption Meme</button>
-            <button onClick={() => setActiveComponent("Battle Memes")}>Battle Memes</button>
-            <button onClick={() => setActiveComponent("Leaderboard")}>Leaderboard</button>
+            <div className="meme_creator">
+            </div>
+            <Created_Cards userMemes={userMemes}/>
+            <Caption_Cards memesToBeCaptioned = {memesToBeCaptioned}/>
+            <Vote_Cards memesToBeVotedOn = {memesToBeVotedOn}/>
+            <Leaderboard completedMemes={completedMemes}/>
+            <Friend_Cards friends = {friends} notFriends = {notFriends}/>
 
 
-            {/* Render the active component based on the state */}
-            {renderComponent()}
         </main>
     );
 }
