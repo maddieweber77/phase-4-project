@@ -4,6 +4,8 @@ import Header from "./Header";
 // import Random from "random";
 
 function Battle_Memes() {
+    
+    //! States defined here
     // featured meme - these should originally just be set to a random meme in our database
     const [featuredMeme1, setFeaturedMeme1] = useState({});
     const [featuredMeme2, setFeaturedMeme2] = useState({});
@@ -15,12 +17,17 @@ function Battle_Memes() {
     const [newDescription, setNewDescription] = useState(""); // Define newDescription state
     const [caption, setCaption] = useState(""); // Define caption state
 
+    const [totalMemes, setTotalMemes] = useState(0); // Use state to track # of totalMemes
+
+    const [memes, setMemes] = useState([]); // Added state for storing meme data
+
     useEffect(() => {
         // Fetch the list of memes when the component mounts
         fetch("http://localhost:3000/memes")
             .then(response => response.json())
             .then(data => {
-                const totalMemes = data.length;
+                setMemes(data);
+                setTotalMemes(data.length);
                 //! need to do a random number
                 setFeaturedMeme1(data[0]); // Set initial featured memes
                 setFeaturedMeme2(data[1]);
@@ -28,13 +35,13 @@ function Battle_Memes() {
             .catch(error => {
                 console.error("Error fetching memes:", error);
             });
-    }, []); // Empty dependency array makes this effect run only once when the component mounts
+    }, []); 
 
     const showNextMeme = () => {
         const currentIndex = Math.floor(Math.random() * totalMemes);
         const nextIndex = (currentIndex + 1) % totalMemes;
-        setFeaturedMeme1(data[nextIndex]);
-        setFeaturedMeme2(data[nextIndex]);
+        setFeaturedMeme1(memes[nextIndex]);
+        setFeaturedMeme2(memes[nextIndex]);
     };
 
     const handleCaptionSubmit = () => {
