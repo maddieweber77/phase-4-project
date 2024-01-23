@@ -64,6 +64,22 @@ def get_user_by_id(id):
 #     except:
 #         return {'Message': 'No user logged in'}, 404
 
+@app.post('/')
+def login():
+    data = request.json
+
+    user = User.query.filter(User.name == data.get('password')).first()
+
+    if user and bcrypt.check_password_hash(user.password_hash, data.get('password')):
+        session["user_id"] = user.id
+        print("success")
+
+        return user.to_dict(), 200
+    else:
+        return {"error": "Invalid username or password"}, 401
+
+
+
 
 
 
