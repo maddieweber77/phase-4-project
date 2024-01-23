@@ -31,9 +31,6 @@ function Battle_Memes() {
         ])
           .then(([responsesData, memesData]) => {
             setResponses(responsesData);
-            //! this console.log below actually works
-            console.log('responses data')
-            console.log(responsesData)
             setMemes(memesData);
             setTotalMemes(memesData.length);
     
@@ -45,8 +42,6 @@ function Battle_Memes() {
             setFeaturedMeme2(initialMeme);
     
             const initialResponse = getResponseByMemeId(initialMeme.id, responsesData);
-            console.log('initial response')
-            console.log(initialResponse)
             setFeaturedCap1(initialResponse);
             setFeaturedCap2(initialResponse);
 
@@ -76,8 +71,6 @@ function Battle_Memes() {
         const nextMemeId = memes[nextIndex].id;
         const response1 = getResponseByMemeId(nextMemeId, responses);
         setFeaturedCap1(response1);
-        console.log("response1")
-        console.log(response1)
 
         // Set the second featured meme to the same image as the first one
         setFeaturedMeme2(featuredMeme1);
@@ -90,9 +83,11 @@ function Battle_Memes() {
         updateScore(nextMemeId);
     };
 
+   
     const updateScore = async (memeId) => {
         // Find the response associated with the clicked meme
-        const responseForMeme = responses.find(response => response.meme_id === memeId);
+        const responseForMeme = responses.find(response => String(response.meme_id) === String(memeId));
+
     
         if (responseForMeme) {
             try {
@@ -138,14 +133,11 @@ function Battle_Memes() {
 
     
     const getResponseByMemeId = (memeId, responsesData) => {
-        console.log('Logging responsesData within getResponseByMemeId:', responsesData);
     
         // Convert memeId to a number for strict equality
         const memeIdNumber = Number(memeId);
     
         const responsesForMeme = responsesData.filter(response => response.meme_id === memeIdNumber);
-        console.log("Printing from getResponseByMemeId:");
-        console.log(responsesForMeme);
     
         // Generate a random index within the length of the subarray
         const randomIndex = Math.floor(Math.random() * responsesForMeme.length);
