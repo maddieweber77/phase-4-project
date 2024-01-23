@@ -80,21 +80,21 @@
       "meme_id": 1,
       "contestant_id": 3,
       "response": "Random String",
-      "score": 9
+      "score": 10
     },
     {
       "id": "2",
       "meme_id": 2,
       "contestant_id": 1,
       "response": "Random String2",
-      "score": 7
+      "score": 8
     },
     {
       "id": "3",
       "meme_id": 3,
       "contestant_id": 2,
       "response": "Random String 3",
-      "score": 59
+      "score": 60
     },
     {
       "id": "4",

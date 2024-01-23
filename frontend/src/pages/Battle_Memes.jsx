@@ -16,22 +16,26 @@ function Battle_Memes() {
     const [caption, setCaption] = useState(""); // Define caption state
     const [totalMemes, setTotalMemes] = useState(0); // Use state to track # of totalMemes
     const [memes, setMemes] = useState([]); // Added state for storing meme data
+    const [users, setUsers] = useState([]) // Added state for storing user data
     const [responses, setResponses] = useState([]);
 
     let prevMemeId = null;
     let currentIndex = null;
 
     useEffect(() => {
+        //! need to fetch all the users also
         // Fetch the list of responses and memes when the component mounts
         Promise.all([
           fetch("http://localhost:3000/responses").then((response) =>
             response.json()
           ),
           fetch("http://localhost:3000/memes").then((response) => response.json()),
+          fetch("http://localhost:3000/users").then((response) => response.json()),
         ])
-          .then(([responsesData, memesData]) => {
+          .then(([responsesData, memesData, usersData]) => {
             setResponses(responsesData);
             setMemes(memesData);
+            setUsers(usersData)
             setTotalMemes(memesData.length);
     
             const randomIndex = Math.floor(Math.random() * memesData.length);
@@ -94,7 +98,7 @@ function Battle_Memes() {
                 // Increment the score locally
                 // Assuming you have a state for responses: const [responses, setResponses] = useState([]);
                 const updatedResponses = responses.map(response =>
-                    response.id === responseForMeme.id
+                    response.id === responseForMeme.meme_id
                         ? { ...response, score: response.score + 1 }
                         : response
                 );
@@ -118,6 +122,15 @@ function Battle_Memes() {
             } catch (error) {
                 console.error('Error updating score:', error);
             }
+            
+            //! need to finish the below
+            //incrementing the score for the user
+            const updatedUsers = users.map(user =>
+                user.id === responseForMeme.contestant_id
+                    ? { ...user, total_points: user.total_points + 1 }
+                    : user
+            );
+            setUsers(updatedUsers);
         }
     };
 
