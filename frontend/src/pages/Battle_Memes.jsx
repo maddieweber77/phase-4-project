@@ -31,16 +31,21 @@ function Battle_Memes() {
         ])
           .then(([responsesData, memesData]) => {
             setResponses(responsesData);
+            //! this console.log below actually works
+            console.log('responses data')
+            console.log(responsesData)
             setMemes(memesData);
             setTotalMemes(memesData.length);
     
             const randomIndex = Math.floor(Math.random() * memesData.length);
             const initialMeme = memesData[randomIndex];
     
+            //! below is why the starting two memes are the same
             setFeaturedMeme1(initialMeme);
             setFeaturedMeme2(initialMeme);
     
             const initialResponse = getResponseByMemeId(initialMeme.id, responsesData);
+            console.log('initial response')
             console.log(initialResponse)
             setFeaturedCap1(initialResponse);
             setFeaturedCap2(initialResponse);
@@ -53,24 +58,14 @@ function Battle_Memes() {
       }, []); 
 
       const showNextMeme = () => {
-        // // Ensure that it's a different number from last time
-        // let currentIndex = Math.floor(Math.random() * totalMemes);
-        // Shuffle the array of indices
         const shuffledIndices = [...Array(totalMemes).keys()].sort(() => Math.random() - 0.5);
-
-        // Find the next index that is different from the current and previous meme
         let nextIndex = shuffledIndices.find(index => index !== currentIndex && memes[index].id !== prevMemeId);
 
-        // If all memes have been shown, shuffle again
         if (nextIndex === undefined) {
-            // Shuffle the array of indices again
             const shuffledAgain = [...Array(totalMemes).keys()].sort(() => Math.random() - 0.5);
-
-            // Find the next index that is different from the current and previous meme
             nextIndex = shuffledAgain.find(index => index !== currentIndex && memes[index].id !== prevMemeId);
         }
 
-        // Update the current index and previous meme ID
         currentIndex = nextIndex;
         prevMemeId = featuredMeme1.id;
 
@@ -78,13 +73,57 @@ function Battle_Memes() {
         setFeaturedMeme1(memes[nextIndex]);
 
         // Set a random response for the next meme
-        setFeaturedCap1(getResponseByMemeId(memes[nextIndex].id, responses));
+        const nextMemeId = memes[nextIndex].id;
+        const response1 = getResponseByMemeId(nextMemeId, responses);
+        setFeaturedCap1(response1);
+        console.log("response1")
+        console.log(response1)
 
         // Set the second featured meme to the same image as the first one
         setFeaturedMeme2(featuredMeme1);
 
         // Set a random response for the second featured meme
-        setFeaturedCap2(getResponseByMemeId(memes[nextIndex].id, responses));
+        const response2 = getResponseByMemeId(nextMemeId, responses);
+        setFeaturedCap2(response2);
+
+        // Add a point to the score when a meme is clicked
+        updateScore(nextMemeId);
+    };
+
+    const updateScore = async (memeId) => {
+        // Find the response associated with the clicked meme
+        const responseForMeme = responses.find(response => response.meme_id === memeId);
+    
+        if (responseForMeme) {
+            try {
+                // Increment the score locally
+                // Assuming you have a state for responses: const [responses, setResponses] = useState([]);
+                const updatedResponses = responses.map(response =>
+                    response.id === responseForMeme.id
+                        ? { ...response, score: response.score + 1 }
+                        : response
+                );
+                setResponses(updatedResponses);
+    
+                // PATCH request to update the score on the server
+                const patchResponse = await fetch(`http://localhost:3000/responses/${responseForMeme.id}`, {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        score: responseForMeme.score + 1,
+                    }),
+                });
+    
+                if (!patchResponse.ok) {
+                    // Handle error, maybe revert local state changes
+                    console.error('Failed to update score on the server');
+                }
+            } catch (error) {
+                console.error('Error updating score:', error);
+            }
+        }
     };
 
     useEffect(() => {
@@ -97,9 +136,14 @@ function Battle_Memes() {
         }
     }, [featuredMeme1.id, featuredMeme2.id, responses]);
 
+    
     const getResponseByMemeId = (memeId, responsesData) => {
-        const responsesForMeme = responsesData.filter(response => response.meme_id === memeId);
-        
+        console.log('Logging responsesData within getResponseByMemeId:', responsesData);
+    
+        // Convert memeId to a number for strict equality
+        const memeIdNumber = Number(memeId);
+    
+        const responsesForMeme = responsesData.filter(response => response.meme_id === memeIdNumber);
         console.log("Printing from getResponseByMemeId:");
         console.log(responsesForMeme);
     
