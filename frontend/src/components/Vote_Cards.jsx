@@ -55,8 +55,8 @@ function Vote_Cards() {
 
       return (
         <div className="vote-cards-container">
-          <Link to="/battle_memes">
-            <button>Vote</button>
+          <Link to="/Battle-Memes">
+            <button>Vote on the Funniest Captions!</button>
           </Link>
     
           <div className="cards-wrapper">
