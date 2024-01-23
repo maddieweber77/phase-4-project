@@ -2,15 +2,16 @@
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   line-height: 1.5;
   font-weight: 500;
+  color: #f9f9f9;
 
   /* color-scheme: dark light; */
   /* color: rgba(29, 43, 107, 0.87);
   background-color: rgba(29, 43, 107, 0.87); */
 
   font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  /* text-rendering: optimizeLegibility; */
+  /* -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale; */
 }
 
 a {
@@ -28,7 +29,8 @@ body {
   place-items: center;
   min-width: 100vw;
   min-height: 100vh;
-  background-color: rgba(20, 30, 110, 0.90)
+  background-color: rgba(20, 30, 110, 0.90);
+  color: white;
 }
 
 h1 {
@@ -51,15 +53,16 @@ button {
   /* transition: font-size 0.25s; */
 }
 button:hover {
+  
   /* font-size: 1.2em; */
-  border-color: #646cff;
+  border-color: #86f1ffc9;
 }
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
-@media (prefers-color-scheme: light) {
+/* @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
     background-color: #ffffff;
@@ -72,6 +75,12 @@ button:focus-visible {
   }
 }
 
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+} */
+
 #root {
   max-width: 1280px;
   min-width: 320px;
@@ -79,6 +88,16 @@ button:focus-visible {
   padding: 2rem;
   text-align: center;
 }
+
+/* @keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+} */
+
 
 /* HEADER */
 .header-div {
@@ -91,124 +110,7 @@ button:focus-visible {
   font-size: 2.0em;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-}
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
-}
-
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
-}
-
-.login-page-div {
-  display: flex;
-  flex-direction: column;
-}
-
-#login-form {
-  display: flex;
-  flex-direction: column;
-  width: min-content;
-  padding: 10px;
-}
-
-.login-text {
-  font-family: inherit;
-  color: #f9f9f9;
-  padding: 10px;
-}
-
-.login-input {
-  border-radius: 10px;
-  padding: 5px;
-}
-
-#login-submit-button {
-  margin-top: 10px;
-  padding: 0.3em 1.2em;
-}
-
-#root {
-  max-width: 1280px;
-  min-width: 320px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
-}
-
-/* HEADER */
-.header-div {
-  top: 0%;
-  width: 100%;
-  padding: 1rem;
-}
-
-#app-title {
-  font-size: 2.0em;
-}
-
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-}
-
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
-}
-
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
-}
 
 /* Login page */
 
@@ -238,4 +140,23 @@ button:focus-visible {
 #login-submit-button {
   margin-top: 10px;
   padding: 0.3em 1.2em;
+}
+
+/* *******PROFILE********* */
+
+.profile-info-div {
+  display: flex;
+  flex-direction: column;
+  width: min-content;
+  color: #f9f9f9
+}
+
+.profile-info {
+  color: #f9f9f9;
+}
+
+/* Home Page */
+/* Meme Creator */
+.grid_container {
+  display: grid;
 }

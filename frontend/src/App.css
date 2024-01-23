@@ -1,10 +1,10 @@
-#root {
+/* #root {
   max-width: 1280px;
   min-width: 320px;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
-}
+} */
 
 /* HEADER */
 .header-div {
@@ -58,12 +58,15 @@
 .login-page-div {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 #login-form {
   display: flex;
   flex-direction: column;
-  width: min-content;
+  justify-content: center;
+  width: inherit;
   padding: 10px;
 }
 
@@ -81,4 +84,19 @@
 #login-submit-button {
   margin-top: 10px;
   padding: 0.3em 1.2em;
+}
+
+/* *******LEADERBOARD CARD*************** */
+
+.leaderboard-card {
+  width: 100%;
+}
+
+.leaderboard-list {
+  color: #f9f9f9;
+  font-size: 1.2em;
+}
+
+.leaderboard-place {
+  color: #f9f9f9;
 }
