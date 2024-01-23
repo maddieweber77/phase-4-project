@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import Header from "../components/Header";
+
+import Leaderboard from "../components/Leaderboard";
 import Created_Cards from "../components/Created_Cards";
 import Caption_Cards from "../components/Caption_Card";
-import Leaderboard from "./Leaderboard";
 import Friend_Cards from "../components/Friend_Cards";
 import Vote_Cards from "../components/Vote_Cards";
+
 
 function Home() {
     const [userMemes, setUserMemes] = useState({})
@@ -78,11 +80,11 @@ function Home() {
                     </form>
                 </div>
             </div>
-            <Created_Cards userMemes={userMemes}/>
-            <Caption_Cards memesToBeCaptioned = {memesToBeCaptioned}/>
-            <Vote_Cards memesToBeVotedOn = {memesToBeVotedOn}/>
+            {/* <Created_Cards userMemes={userMemes}/> */}
+            {/* <Caption_Cards memesToBeCaptioned = {memesToBeCaptioned}/> */}
+            {/* <Vote_Cards memesToBeVotedOn = {memesToBeVotedOn}/> */}
             <Leaderboard completedMemes={completedMemes}/>
-            <Friend_Cards friends = {friends} notFriends = {notFriends}/>
+            {/* <Friend_Cards friends = {friends} notFriends = {notFriends}/> */}
 
 
         </div>
