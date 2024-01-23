@@ -80,28 +80,28 @@
       "meme_id": 1,
       "contestant_id": 3,
       "response": "Random String",
-      "score": 5
+      "score": 7
     },
     {
       "id": "2",
       "meme_id": 2,
       "contestant_id": 1,
       "response": "Random String2",
-      "score": -3
+      "score": -2
     },
     {
       "id": "3",
       "meme_id": 3,
       "contestant_id": 2,
       "response": "Random String 3",
-      "score": 55
+      "score": 54
     },
     {
       "id": "4",
       "meme_id": 1,
       "contestant_id": 3,
       "response": "Random String 4",
-      "score": 2
+      "score": 3
     },
     {
       "id": "5",
@@ -115,7 +115,7 @@
       "meme_id": 3,
       "contestant_id": 2,
       "response": "Random String 6",
-      "score": 50
+      "score": 46
     }
   ]
 }

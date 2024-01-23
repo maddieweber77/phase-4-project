@@ -57,7 +57,7 @@ function Battle_Memes() {
       }, []); 
 
       //! we need to pull in the data from the memes state 
-      const showNextMeme = () => {
+      const showNextMeme = (clickedMemePosition) => {
         // Get two random responses
         const randomResponses = getRandomResponses(responses);
     
@@ -74,8 +74,8 @@ function Battle_Memes() {
         setFeaturedMeme2({ id: memeId2, img_url: imgUrl2 });
         setFeaturedCap2(randomResponses[1]?.response || '');
     
-        // Call updateScore with the meme IDs of both images
-        updateScore(memeId1, memeId2);
+        // Call updateScore with the meme IDs and clicked meme position
+        updateScore(memeId1, memeId2, clickedMemePosition);
     };
     
     
@@ -93,69 +93,66 @@ function Battle_Memes() {
         return meme?.img_url || ''; // Return the image URL or an empty string if not found
     };
     
-    const updateScore = async (clickedMemeId, otherMemeId, clickedMemePosition) => {
+    const updateScore = async (clickedMemeId, otherMemeId) => {
         // Find the response associated with the clicked meme
-        const responseForMeme = responses.find(response => String(response.meme_id) === String(clickedMemeId));
+        const responseForClickedMeme = responses.find(response => String(response.meme_id) === String(clickedMemeId));
     
-        if (responseForMeme) {
+        if (responseForClickedMeme) {
             try {
+                // Increment the score for the clicked meme both locally and on the server
                 const updatedResponses = responses.map(response =>
-                    response.id === responseForMeme.id
+                    response.id === responseForClickedMeme.id
                         ? { ...response, score: response.score + 1 }
                         : response
                 );
                 setResponses(updatedResponses);
     
-                // PATCH request to update the score on the server for the clicked meme
-                const patchResponse = await fetch(`http://localhost:3000/responses/${responseForMeme.id}`, {
+                await fetch(`http://localhost:3000/responses/${responseForClickedMeme.id}`, {
                     method: 'PATCH',
                     headers: {
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({
-                        score: responseForMeme.score + 1,
+                        score: responseForClickedMeme.score + 1,
                     }),
                 });
     
-                if (!patchResponse.ok) {
-                    // Handle error, maybe revert local state changes
-                    console.error('Failed to update score on the server');
+                // Increment the total points for the user of the clicked meme
+                const updatedUsers = users.map(user =>
+                    user.id === responseForClickedMeme.contestant_id
+                        ? { ...user, total_points: user.total_points + 1 }
+                        : user
+                );
+                setUsers(updatedUsers);
+    
+                // Find the response associated with the other meme (not clicked)
+                const responseForOtherMeme = responses.find(response => String(response.meme_id) === String(otherMemeId));
+    
+                if (responseForOtherMeme) {
+                    // Decrement the score for the other meme both locally and on the server
+                    const updatedOtherResponses = responses.map(response =>
+                        response.id === responseForOtherMeme.id
+                            ? { ...response, score: response.score - 1 }
+                            : response
+                    );
+                    setResponses(updatedOtherResponses);
+    
+                    await fetch(`http://localhost:3000/responses/${responseForOtherMeme.id}`, {
+                        method: 'PATCH',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            score: responseForOtherMeme.score - 1,
+                        }),
+                    });
                 }
             } catch (error) {
                 console.error('Error updating score:', error);
             }
-    
-            // Incrementing the score for the user of the clicked meme
-            const updatedUsers = users.map(user =>
-                user.id === responseForMeme.contestant_id
-                    ? { ...user, total_points: user.total_points + 1 }
-                    : user
-            );
-            setUsers(updatedUsers);
-    
-            // Decrement the score for the other meme (if it exists)
-            const otherResponse = responses.find(response => String(response.meme_id) === String(otherMemeId));
-            if (otherResponse) {
-                const updatedOtherResponses = responses.map(response =>
-                    response.id === otherResponse.id
-                        ? { ...response, score: response.score - 1 }
-                        : response
-                );
-                setResponses(updatedOtherResponses);
-    
-                // PATCH request to update the score on the server for the other meme
-                await fetch(`http://localhost:3000/responses/${otherResponse.id}`, {
-                    method: 'PATCH',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        score: otherResponse.score - 1,
-                    }),
-                });
-            }
         }
     };
+    
 
     useEffect(() => {
         // Use useEffect to handle side effects (e.g., fetching responses) after rendering
@@ -185,20 +182,20 @@ function Battle_Memes() {
         <main>
           <Header />
           <div>
-            <img
-              src={featuredMeme1.img_url}
-              onClick={showNextMeme}
-              width="100%"
-              alt="Meme"
+          <img
+            src={featuredMeme1.img_url}
+            onClick={() => showNextMeme("top")} // Corrected
+            width="100%"
+            alt="Meme"
             />
             <p>{featuredCap1}</p>
     
             <img
-              src={featuredMeme2.img_url}
-              onClick={showNextMeme}
-              width="100%"
-              alt="Meme"
-            />
+                src={featuredMeme2.img_url}
+                onClick={() => showNextMeme("bottom")} // Corrected
+                width="100%"
+                alt="Meme"
+                />
             <p>{featuredCap2}</p>
           </div>
     
