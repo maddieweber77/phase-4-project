@@ -24,7 +24,7 @@ function Header(){
                 <button>Logout</button>
             </NavLink>
         
-            {/* if the user is signed in, below button should be "Profile" but otherwise should be "Sign In". We also need to redirect them to either the signin page or the profile depending on the button*/}
+            {/* if the user is signed in, below button should be "Profile" but otherwise should be "Sign In". We also need to redirect them to either the signin page or the profile depending on the button
             {isLoggedIn ? 
                 (
                 <NavLink to='/Profile'>
@@ -35,7 +35,7 @@ function Header(){
                     <button>Login</button>
                 </NavLink>
                 )
-            }
+            } */}
         
         </div>
     );

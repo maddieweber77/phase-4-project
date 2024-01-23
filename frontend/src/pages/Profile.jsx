@@ -12,6 +12,7 @@ function Profile() {
     const [featuredProfile, setFeaturedProfile] = useState('')
     
     // GET request for profile information
+    // Contingent upon being logged in
     useEffect(()=> {
         fetch(`http://localhost:3000/users/${featuredProfile.id}`)
         .then((res) => res.json())

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import Header from "../components/Header";
+import Leaderboard from "../components/Leaderboard";
 
 function Home() {
     const [userMemes, setUserMemes] = useState({})
@@ -12,17 +13,17 @@ function Home() {
 
     useEffect(() => {
         //fetches all memes that the user has created
-        fetch('http://localhost:3000/memes').then(resp = resp.json()).then(data = setUserMemes(data))
+        fetch('http://localhost:3000/memes').then((resp) => resp.json()).then(data => setUserMemes(data))
         //fetches all memes that the user needs to caption
-        fetch('http://localhost:3000/memes').then(resp = resp.json()).then(data = setMemesToBeCaptioned(data))
+        fetch('http://localhost:3000/memes').then((resp) => resp.json()).then(data => setMemesToBeCaptioned(data))
         //fetches all memes that the user needs to vote on
-        fetch('http://localhost:3000/memes').then(resp = resp.json()).then(data = setMemesToBeVotedOn(data))
+        fetch('http://localhost:3000/memes').then((resp) => resp.json()).then(data => setMemesToBeVotedOn(data))
         //fetches all memes that the are complete
-        fetch('http://localhost:3000/memes').then(resp = resp.json()).then(data = setCompletedMemes(data))
+        fetch('http://localhost:3000/memes').then((resp) => resp.json()).then(data => setCompletedMemes(data))
         //fetches all friends of that user
-        fetch('http://localhost:3000/friends').then(resp = resp.json()).then(data = setFriends(data))
+        fetch('http://localhost:3000/friends').then((resp) => resp.json()).then(data => setFriends(data))
         //fetches users who are not currently friends
-        fetch('http://localhost:3000/users').then(resp = resp.json()).then(data = setNotFriends(data))
+        fetch('http://localhost:3000/users').then((resp) => resp.json()).then(data => setNotFriends(data))
     }, [])
 
 
@@ -31,11 +32,11 @@ function Home() {
             <Header />
             <div className="meme_creator">
             </div>
-            <Created_Cards userMemes={userMemes}/>
-            <Caption_Cards memesToBeCaptioned = {memesToBeCaptioned}/>
-            <Vote_Cards memesToBeVotedOn = {memesToBeVotedOn}/>
+            {/* <Created_Cards userMemes={userMemes}/> */}
+            {/* <Caption_Cards memesToBeCaptioned = {memesToBeCaptioned}/> */}
+            {/* <Vote_Cards memesToBeVotedOn = {memesToBeVotedOn}/> */}
             <Leaderboard completedMemes={completedMemes}/>
-            <Friend_Cards friends = {friends} notFriends = {notFriends}/>
+            {/* <Friend_Cards friends = {friends} notFriends = {notFriends}/> */}
 
 
         </main>

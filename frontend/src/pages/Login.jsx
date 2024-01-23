@@ -7,6 +7,7 @@ function Login(){
 
     return (
         <div className="login-page-div">
+            <h1 id='app-title'>BATTLEMEMES</h1>
             <LoginForm/>
         </div>
         )
