@@ -5,16 +5,17 @@ import Header from "../components/Header";
 
 import Leaderboard from "../components/Leaderboard";
 import Created_Cards from "../components/Created_Cards";
-import Caption_Cards from "../components/Caption_Card";
+import Caption_Cards from "../components/Caption_Card_List";
 import Friend_Cards from "../components/Friend_Cards";
 import Vote_Cards from "../components/Vote_Cards";
+import Caption_Cards_List from "../components/Caption_Card_List";
 
 
 function Home() {
     const [userMemes, setUserMemes] = useState({})
-    const [memesToBeCaptioned, setMemesToBeCaptioned] = useState({})
+    const [memesToBeCaptioned, setMemesToBeCaptioned] = useState([])
     const [memesToBeVotedOn, setMemesToBeVotedOn] = useState({})
-    const [completedMemes, setCompletedMemes] = useState({})
+    const [completedMemes, setCompletedMemes] = useState([])
     const [friends, setFriends] = useState({})
     const [notFriends, setNotFriends] = useState({})
 
@@ -58,7 +59,7 @@ function Home() {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
-              },
+            },
             body: JSON.stringify(newMeme)
         }).then(resp => resp.json())
         .then(data => console.log(data))
@@ -83,7 +84,7 @@ function Home() {
                 </div>
             </div>
             {/* <Created_Cards userMemes={userMemes}/> */}
-            {/* <Caption_Cards memesToBeCaptioned = {memesToBeCaptioned}/> */}
+            <Caption_Cards_List memesToBeCaptioned = {memesToBeCaptioned}/>
             {/* <Vote_Cards memesToBeVotedOn = {memesToBeVotedOn}/> */}
             <Vote_Cards/>
             <Leaderboard completedMemes={completedMemes}/>
