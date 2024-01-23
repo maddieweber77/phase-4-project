@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from 'react-router-dom';
+import "/Users/maddieweber/Development/code/phase-4/phase-4-project/frontend/src/App.css"
 
 function Vote_Cards() {
     const fakeData = {
@@ -53,22 +54,23 @@ function Vote_Cards() {
       
 
       return (
-        <div>
-          <Link to="/battle_memes"> {/* Use Link to navigate to the battle_memes page */}
+        <div className="vote-cards-container">
+          <Link to="/battle_memes">
             <button>Vote</button>
           </Link>
     
-          {/* Mapping through the meme data to create 5 small container cards */}
-          {fakeData.memesToBeVotedOn.slice(0, 5).map((meme, index) => (
-            <div key={index} className="container-card">
-              <img
-                src={meme.img_url}
-                alt={`Meme ${index + 1}`}
-                className="meme-image"
-              />
-              <div className="response-overlay">{meme.response}</div>
-            </div>
-          ))}
+          <div className="cards-wrapper">
+            {fakeData.memesToBeVotedOn.slice(0, 5).map((meme, index) => (
+              <div key={index} className="container-card">
+                <img
+                  src={meme.img_url}
+                  alt={`Meme ${index + 1}`}
+                  className="meme-image"
+                />
+                <div className="response-overlay">{meme.response}</div>
+              </div>
+            ))}
+          </div>
         </div>
       );
     }
