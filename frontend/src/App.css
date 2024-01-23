@@ -53,6 +53,10 @@
   color: #888;
 }
 
+.grid_container {
+  width: 100%;
+}
+
 /* Login page */
 
 .login-page-div {
@@ -87,6 +91,19 @@
 }
 
 /* *******VOTE CARDS*************** */
+
+.vote-cards-container,
+.leaderboard-container {
+  width: 100%;
+  
+  box-sizing: border-box; /* Include padding and border in the width calculation */
+}
+
+.vote-cards-container-bigger {
+  padding: 20px; /* Adjust the padding as needed */
+  background-color: #e1f5fe; /* Set the background color for Vote_Cards */
+}
+
 .vote-cards-container {
   display: flex;
   flex-direction: column;
@@ -133,6 +150,11 @@ button {
 
 
 /* *******LEADERBOARD CARD*************** */
+
+.leaderboard-container {
+  padding: 20px; /* Adjust the padding as needed */
+  background-color: rgba(20, 30, 110, 0.90); /* Set the background color for Leaderboard */
+}
 
 .leaderboard-card {
   width: 100%;

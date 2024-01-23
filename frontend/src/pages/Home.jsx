@@ -85,8 +85,12 @@ function Home() {
             {/* <Created_Cards userMemes={userMemes}/> */}
             {/* <Caption_Cards memesToBeCaptioned = {memesToBeCaptioned}/> */}
             {/* <Vote_Cards memesToBeVotedOn = {memesToBeVotedOn}/> */}
-            <Vote_Cards/>
-            <Leaderboard completedMemes={completedMemes}/>
+            <div className="vote-cards-container-bigger">
+            <Vote_Cards />
+            </div>
+            <div className="leaderboard-container">
+            <Leaderboard completedMemes={completedMemes} />
+            </div>
             {/* <Friend_Cards friends = {friends} notFriends = {notFriends}/> */}
 
 
