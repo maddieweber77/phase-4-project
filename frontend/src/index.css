@@ -29,7 +29,8 @@ body {
   place-items: center;
   min-width: 100vw;
   min-height: 100vh;
-  background-color: rgba(20, 30, 110, 0.90)
+  background-color: rgba(20, 30, 110, 0.90);
+  color: white;
 }
 
 h1 {
@@ -152,4 +153,10 @@ button:focus-visible {
 
 .profile-info {
   color: #f9f9f9;
+}
+
+/* Home Page */
+/* Meme Creator */
+.grid_container {
+  display: grid;
 }
