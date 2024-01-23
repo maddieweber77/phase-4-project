@@ -4,16 +4,17 @@ import Header from "../components/Header";
 
 import Leaderboard from "../components/Leaderboard";
 import Created_Cards from "../components/Created_Cards";
-import Caption_Cards from "../components/Caption_Card";
+import Caption_Cards from "../components/Caption_Card_List";
 import Friend_Cards from "../components/Friend_Cards";
 import Vote_Cards from "../components/Vote_Cards";
+import Caption_Cards_List from "../components/Caption_Card_List";
 
 
 function Home() {
     const [userMemes, setUserMemes] = useState({})
-    const [memesToBeCaptioned, setMemesToBeCaptioned] = useState({})
+    const [memesToBeCaptioned, setMemesToBeCaptioned] = useState([])
     const [memesToBeVotedOn, setMemesToBeVotedOn] = useState({})
-    const [completedMemes, setCompletedMemes] = useState({})
+    const [completedMemes, setCompletedMemes] = useState([])
     const [friends, setFriends] = useState({})
     const [notFriends, setNotFriends] = useState({})
 
@@ -56,20 +57,20 @@ function Home() {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
-              },
+            },
             body: JSON.stringify(newMeme)
         }).then(resp => resp.json())
         .then(data => console.log(data))
     }
 
     return (
-        <div class = "grid_container">
+        <div className = "grid_container">
             <Header />
             <div className="meme_creator">
                 <h1>Add a Meme!</h1>
                 <div className="meme_creator_container">
                     <img id = "img_creator_meme" src = {newMeme.img_url != "" ? newMeme.img_url : "https://i.imgflip.com/3u04h5.jpg?a473832"}/>
-                    <form class = "new_meme_submission_form" onSubmit = {handleNewMemeSubmission}>
+                    <form className = "new_meme_submission_form" onSubmit = {handleNewMemeSubmission}>
                         <label htmlFor="img_url">Meme Image URL</label>
                         <input id="img_url" type="text" onChange = {handleNewMemeInputs} value = {newMeme.img_url}/>
                         <label htmlFor="name">Name Meme</label>
@@ -81,7 +82,7 @@ function Home() {
                 </div>
             </div>
             {/* <Created_Cards userMemes={userMemes}/> */}
-            {/* <Caption_Cards memesToBeCaptioned = {memesToBeCaptioned}/> */}
+            <Caption_Cards_List memesToBeCaptioned = {memesToBeCaptioned}/>
             {/* <Vote_Cards memesToBeVotedOn = {memesToBeVotedOn}/> */}
             <Leaderboard completedMemes={completedMemes}/>
             {/* <Friend_Cards friends = {friends} notFriends = {notFriends}/> */}

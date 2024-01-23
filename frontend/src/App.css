@@ -100,3 +100,21 @@
 .leaderboard-place {
   color: #f9f9f9;
 }
+
+/* ***************CAPTION CARD************** */
+
+.caption-card-bin {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+}
+
+.caption-card {
+  width: 300px;
+  height: 310px;
+  border-radius: 12px
+}
+
+.uncaptioned-meme-image {
+  object-fit: fill;
+}
