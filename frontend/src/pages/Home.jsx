@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
+import { Link } from 'react-router-dom';
 import Header from "../components/Header";
 
 import Leaderboard from "../components/Leaderboard";
@@ -24,6 +25,7 @@ function Home() {
         //fetches all memes that the user needs to caption
         fetch('http://localhost:3000/memes').then(resp => resp.json()).then(data => setMemesToBeCaptioned(data))
         //fetches all memes that the user needs to vote on
+        //! how does this pull the proper responses though for the memes?
         fetch('http://localhost:3000/memes').then(resp => resp.json()).then(data => setMemesToBeVotedOn(data))
         //fetches all memes that the are complete
         fetch('http://localhost:3000/memes').then(resp => resp.json()).then(data => setCompletedMemes(data))
@@ -63,13 +65,13 @@ function Home() {
     }
 
     return (
-        <div class = "grid_container">
+        <div className = "grid_container">
             <Header />
             <div className="meme_creator">
                 <h1>Add a Meme!</h1>
                 <div className="meme_creator_container">
                     <img id = "img_creator_meme" src = {newMeme.img_url != "" ? newMeme.img_url : "https://i.imgflip.com/3u04h5.jpg?a473832"}/>
-                    <form class = "new_meme_submission_form" onSubmit = {handleNewMemeSubmission}>
+                    <form className = "new_meme_submission_form" onSubmit = {handleNewMemeSubmission}>
                         <label htmlFor="img_url">Meme Image URL</label>
                         <input id="img_url" type="text" onChange = {handleNewMemeInputs} value = {newMeme.img_url}/>
                         <label htmlFor="name">Name Meme</label>
@@ -83,6 +85,7 @@ function Home() {
             {/* <Created_Cards userMemes={userMemes}/> */}
             {/* <Caption_Cards memesToBeCaptioned = {memesToBeCaptioned}/> */}
             {/* <Vote_Cards memesToBeVotedOn = {memesToBeVotedOn}/> */}
+            <Vote_Cards/>
             <Leaderboard completedMemes={completedMemes}/>
             {/* <Friend_Cards friends = {friends} notFriends = {notFriends}/> */}
 
