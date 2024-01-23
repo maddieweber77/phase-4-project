@@ -56,44 +56,46 @@ function Battle_Memes() {
           });
       }, []); 
 
+      //! we need to pull in the data from the memes state 
       const showNextMeme = () => {
-        const shuffledIndices = [...Array(totalMemes).keys()].sort(() => Math.random() - 0.5);
-        let nextIndex = shuffledIndices.find(index => index !== currentIndex && memes[index].id !== prevMemeId);
-
-        if (nextIndex === undefined) {
-            const shuffledAgain = [...Array(totalMemes).keys()].sort(() => Math.random() - 0.5);
-            nextIndex = shuffledAgain.find(index => index !== currentIndex && memes[index].id !== prevMemeId);
-        }
-
-        currentIndex = nextIndex;
-        prevMemeId = featuredMeme1.id;
-
-        // Update featured memes
-        setFeaturedMeme1(memes[nextIndex]);
-
-        // Set a random response for the next meme
-        const nextMemeId = memes[nextIndex].id;
-        const response1 = getResponseByMemeId(nextMemeId, responses);
-        setFeaturedCap1(response1);
-
-        // Set the second featured meme to the same image as the first one
-        setFeaturedMeme2(featuredMeme1);
-
-        // Set a random response for the second featured meme
-        const response2 = getResponseByMemeId(nextMemeId, responses);
-        setFeaturedCap2(response2);
-
-        // Add a point to the score when a meme is clicked
-        updateScore(prevMemeId);
+        // Get two random responses
+        const randomResponses = getRandomResponses(responses);
+    
+        // Extract meme IDs and image URLs from the responses
+        const memeId1 = randomResponses[0]?.meme_id || '';
+        const memeId2 = randomResponses[1]?.meme_id || '';
+        const imgUrl1 = getMemeImgUrl(memeId1);
+        const imgUrl2 = getMemeImgUrl(memeId2);
+    
+        // Update featured memes and captions
+        setFeaturedMeme1({ id: memeId1, img_url: imgUrl1 });
+        setFeaturedCap1(randomResponses[0]?.response || '');
+    
+        setFeaturedMeme2({ id: memeId2, img_url: imgUrl2 });
+        setFeaturedCap2(randomResponses[1]?.response || '');
+    
+        // Call updateScore with the meme IDs of both images
+        updateScore(memeId1, memeId2);
     };
-
-   
-    const updateScore = async (memeId) => {
+    
+    
+    const getRandomResponses = (responsesData) => {
+        // Shuffle the responses and return the first two
+        const shuffledResponses = responsesData.sort(() => Math.random() - 0.5);
+        return shuffledResponses.slice(0, 2);
+    };
+    
+    const getMemeImgUrl = (memeId) => {
+        console.log("memes state inside getMemeImgURL", memes)
+        const meme = memes.find((m) => String(m.id) === String(memeId));
+        //! undefined
+        console.log("meme img inside getMemeImgURL", meme)
+        return meme?.img_url || ''; // Return the image URL or an empty string if not found
+    };
+    
+    const updateScore = async (clickedMemeId, otherMemeId, clickedMemePosition) => {
         // Find the response associated with the clicked meme
-        console.log("memeid", memeId)
-        const responseForMeme = responses.find(response => String(response.meme_id) === String(memeId));
-        console.log("response for meme", responseForMeme)
-
+        const responseForMeme = responses.find(response => String(response.meme_id) === String(clickedMemeId));
     
         if (responseForMeme) {
             try {
@@ -104,7 +106,7 @@ function Battle_Memes() {
                 );
                 setResponses(updatedResponses);
     
-                // PATCH request to update the score on the server
+                // PATCH request to update the score on the server for the clicked meme
                 const patchResponse = await fetch(`http://localhost:3000/responses/${responseForMeme.id}`, {
                     method: 'PATCH',
                     headers: {
@@ -122,15 +124,36 @@ function Battle_Memes() {
             } catch (error) {
                 console.error('Error updating score:', error);
             }
-            
-            //! need to finish the below
-            //incrementing the score for the user
+    
+            // Incrementing the score for the user of the clicked meme
             const updatedUsers = users.map(user =>
                 user.id === responseForMeme.contestant_id
                     ? { ...user, total_points: user.total_points + 1 }
                     : user
             );
             setUsers(updatedUsers);
+    
+            // Decrement the score for the other meme (if it exists)
+            const otherResponse = responses.find(response => String(response.meme_id) === String(otherMemeId));
+            if (otherResponse) {
+                const updatedOtherResponses = responses.map(response =>
+                    response.id === otherResponse.id
+                        ? { ...response, score: response.score - 1 }
+                        : response
+                );
+                setResponses(updatedOtherResponses);
+    
+                // PATCH request to update the score on the server for the other meme
+                await fetch(`http://localhost:3000/responses/${otherResponse.id}`, {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        score: otherResponse.score - 1,
+                    }),
+                });
+            }
         }
     };
 
