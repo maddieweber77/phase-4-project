@@ -84,21 +84,21 @@ function Battle_Memes() {
         setFeaturedCap2(response2);
 
         // Add a point to the score when a meme is clicked
-        updateScore(nextMemeId);
+        updateScore(prevMemeId);
     };
 
    
     const updateScore = async (memeId) => {
         // Find the response associated with the clicked meme
+        console.log("memeid", memeId)
         const responseForMeme = responses.find(response => String(response.meme_id) === String(memeId));
+        console.log("response for meme", responseForMeme)
 
     
         if (responseForMeme) {
             try {
-                // Increment the score locally
-                // Assuming you have a state for responses: const [responses, setResponses] = useState([]);
                 const updatedResponses = responses.map(response =>
-                    response.id === responseForMeme.meme_id
+                    response.id === responseForMeme.id
                         ? { ...response, score: response.score + 1 }
                         : response
                 );
