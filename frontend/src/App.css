@@ -107,15 +107,16 @@ button {
 
 .container-card {
   position: relative;
-  width: 200px; /* Adjust the width as needed */
+  width: 200px; 
 }
 
 .meme-image {
   width: 100%;
   height: 100%;
-  object-fit: cover; /* Zoom in to cover the entire container while maintaining aspect ratio */
+  object-fit: cover; 
 }
 
+/*! below is how u make text look like meme text! */
 .response-overlay {
   font-weight: bold;
   -webkit-text-stroke: 0.06em black;
@@ -127,7 +128,7 @@ button {
   transform: translateX(-50%);
   padding: 5px;
   text-align: center;
-  white-space: nowrap; /* Ensures the text stays on a single line */
+  white-space: nowrap;
 }
 
 
