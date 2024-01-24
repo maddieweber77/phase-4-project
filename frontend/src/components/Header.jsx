@@ -5,6 +5,17 @@ import { NavLink } from "react-router-dom";
 
 function Header(){
 
+    // Will likely have to move logout function to Login or Home
+    // Set up handleClickLogout function 
+
+    function logout() {
+        fetch(`/logout`, { method: "DELETE" }).then((res) => {
+            if (res.ok) {
+                setUser(null);
+            }
+        });
+    }
+
     return(
         <div className="header-div">
             <h1 id='app-title'>BATTLEMEMES</h1>
@@ -21,7 +32,7 @@ function Header(){
                 <button>Battle Memes</button>
             </NavLink>
             <NavLink to='/'>
-                <button>Logout</button>
+                <button onClick={logout}>Logout</button>
             </NavLink>
         
             {/* if the user is signed in, below button should be "Profile" but otherwise should be "Sign In". We also need to redirect them to either the signin page or the profile depending on the button*/}

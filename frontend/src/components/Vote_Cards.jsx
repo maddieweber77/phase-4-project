@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from 'react-router-dom';
-import "/Users/maddieweber/Development/code/phase-4/phase-4-project/frontend/src/App.css"
+// import "/Users/maddieweber/Development/code/phase-4/phase-4-project/frontend/src/App.css"
 
 function Vote_Cards() {
     const fakeData = {
