@@ -10,7 +10,13 @@ import Profile from "./pages/Profile";
 import Caption_Meme from "./pages/Caption_Meme";
 import Battle_Memes from "./pages/Battle_Memes";
 
+async function memeLoader() {
+    const resRes = await fetch("http://localhost:3000/responses")
+    const memeRes = await fetch("http://localhost:3000/memes")
+    const userRes = await fetch("http://localhost:3000/users")
+    return [await resRes.json(), await memeRes.json(), await userRes.json()]
 
+}
 const Routes = createBrowserRouter([
     {
         path: "/",
@@ -40,8 +46,9 @@ const Routes = createBrowserRouter([
             {
                 path: "/Battle-Memes",
                 element: <Battle_Memes />,
-                errorElement: <ErrorPage />
-            },
+                errorElement: <ErrorPage />,
+                loader: memeLoader
+            }
         ]
     }
 ]);
