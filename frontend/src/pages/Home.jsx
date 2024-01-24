@@ -22,15 +22,15 @@ function Home() {
     //fetches all info for the subsequent pages
     useEffect(() => {
         //fetches all memes that the user has created
-        fetch('/api/memes/user/<int:id>').then(resp => resp.json()).then(data => setUserMemes(data))
+        fetch('/api/memes/user/1').then(resp => resp.json()).then(data => setUserMemes(data))
         //fetches all memes that the user needs to caption
-        fetch('/needs_responses/<int:id>').then(resp => resp.json()).then(data => setMemesToBeCaptioned(data))
+        fetch('/needs_responses/1').then(resp => resp.json()).then(data => setMemesToBeCaptioned(data))
         //fetches all memes that the user needs to vote on
-        fetch('/api/total_responses/<int:id>').then(resp => resp.json()).then(data => setMemesToBeVotedOn(data))
+        fetch('/api/total_responses/1').then(resp => resp.json()).then(data => setMemesToBeVotedOn(data))
         //fetches all memes that the are complete
-        fetch('/api/complete_memes/user/<int:id>').then(resp => resp.json()).then(data => setCompletedMemes(data))
+        fetch('/api/complete_memes/user/1').then(resp => resp.json()).then(data => setCompletedMemes(data))
         //fetches all friends of that user
-        fetch('/api/connection/User/<int:id>').then(resp => resp.json()).then(data => setFriends(data))
+        fetch('/api/connection/User/1').then(resp => resp.json()).then(data => setFriends(data))
     }, [])
 
     //copntrol form for new memes
