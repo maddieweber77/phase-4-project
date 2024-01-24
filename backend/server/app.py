@@ -204,6 +204,37 @@ def get_repsponses_by_user_id(id):
     responses = Response.query.filter(Response.contestant_id == id).all()
     return [r.to_dict(rules = ['-meme', '-user', '-ballots']) for r in responses], 200
 
+@app.get('/Total_Responses/<int:id>')
+def get_all_unvoted_responses_for_a_user(id):
+    user = db.session.get(User, id)
+    if not user:
+        return {"error": "no response with that ID"}, 404
+    
+    # voted_responses = {b.response for b in user.ballots}
+    # all_responses = {r for m in user.memes for r in m.responses}
+    # to_respond = all_responses - voted_responses
+
+    responses_already_voted_on = []
+    for ballot in user.ballots:
+        responses_already_voted_on.append(ballot.response_id)
+
+    total_memes = []
+    for meme in user.memes:
+        total_memes.append(meme)
+    for response in user.responses:
+
+        total_memes.append(response.meme)
+
+    total_responses_to_vote_on = []
+    for meme in total_memes:
+        for response in meme.responses:
+            if not response.response == "":
+                if response.id not in responses_already_voted_on:
+                    total_responses_to_vote_on.append(response)
+
+    return [r.to_dict(rules = ['-meme', '-user', '-ballots']) for r in total_responses_to_vote_on]
+
+
 @app.patch('/Responses/<int:id>')
 def patch_response_by_response_id(id):
     response = db.session.get(Response, id)
