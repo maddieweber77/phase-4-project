@@ -22,18 +22,18 @@ function Home() {
     //fetches all info for the subsequent pages
     useEffect(() => {
         //fetches all memes that the user has created
-        fetch('http://localhost:3000/memes').then(resp => resp.json()).then(data => setUserMemes(data))
+        fetch('/memes').then(resp => resp.json()).then(data => setUserMemes(data))
         //fetches all memes that the user needs to caption
-        fetch('http://localhost:3000/memes').then(resp => resp.json()).then(data => setMemesToBeCaptioned(data))
+        fetch('/memes').then(resp => resp.json()).then(data => setMemesToBeCaptioned(data))
         //fetches all memes that the user needs to vote on
         //! how does this pull the proper responses though for the memes?
-        fetch('http://localhost:3000/memes').then(resp => resp.json()).then(data => setMemesToBeVotedOn(data))
+        fetch('/memes').then(resp => resp.json()).then(data => setMemesToBeVotedOn(data))
         //fetches all memes that the are complete
-        fetch('http://localhost:3000/memes').then(resp => resp.json()).then(data => setCompletedMemes(data))
+        fetch('/memes').then(resp => resp.json()).then(data => setCompletedMemes(data))
         //fetches all friends of that user
-        fetch('http://localhost:3000/friends').then(resp => resp.json()).then(data => setFriends(data))
+        fetch('/friends').then(resp => resp.json()).then(data => setFriends(data))
         //fetches users who are not currently friends
-        fetch('http://localhost:3000/users').then(resp => resp.json()).then(data => setNotFriends(data))
+        fetch('/users').then(resp => resp.json()).then(data => setNotFriends(data))
     }, [])
 
     //copntrol form for new memes
@@ -55,7 +55,7 @@ function Home() {
     function handleNewMemeSubmission(e) {
         e.preventDefault()
 
-        fetch('http://localhost:3000/memes', {
+        fetch('/memes', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

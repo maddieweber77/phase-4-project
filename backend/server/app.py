@@ -348,9 +348,12 @@ def delete_ballot_by_id(id):
 #     except:
 #         return {'Message': 'No user logged in'}, 404
 
-# @app.post('/')
-# def login():
-#     data = request.json
+
+@app.post('/login')
+def login():
+    
+    data = request.json
+
 
 #     user = User.query.filter(User.name == data.get('password')).first()
 
