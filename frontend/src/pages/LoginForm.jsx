@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 
 
-function LoginForm() {
+function LoginForm({ attemptLogin}) {
 
-    // could be used for Sign up page, include Post request to profile
+    // could be used for Sign in page, include Post request to profile
     // Login needs to be checked against username and password stored in the backend
 
     const [username, setUsername] = useState('')
@@ -12,23 +12,12 @@ function LoginForm() {
     function handleLoginSubmit(e) {
         e.preventDefault();
 
-        const response = 
-            fetch('https//localhost:5555/login', {
-                method: 'POST',
-                headers: {
-                    'content-type': 'application/json',
-                },
-                body: JSON.stringify(username, password)
-            })
-
-            
-            if (response.success){
-                return "Login Successful"
-            } else {
-                return Error("Incorrect Login Info")
-            }
-            
+        attemptLogin({"username": username, "password": password})
         };
+
+        const handleChangeUsername = e => setUsername(e.target.value)
+        const handleChangePassword = e => setPassword(e.target.value)
+
 
     return(
         <form id='login-form' 
@@ -42,7 +31,7 @@ function LoginForm() {
                 placeholder="Enter your username"
                 className='login-input'
                 value={username}
-                onChange={(e) => setUsername(e.target.value)}
+                onChange={handleChangeUsername}
             />
             <label className='login-text'>
             Password:
@@ -52,7 +41,7 @@ function LoginForm() {
                 placeholder="Enter your password"
                 className='login-input'
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={handleChangePassword}
             />
             <button id='login-submit-button' type='submit'>Submit</button>
         </form>
