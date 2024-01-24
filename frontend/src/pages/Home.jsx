@@ -22,18 +22,15 @@ function Home() {
     //fetches all info for the subsequent pages
     useEffect(() => {
         //fetches all memes that the user has created
-        fetch('/memes').then(resp => resp.json()).then(data => setUserMemes(data))
+        fetch('/api/memes/user/<int:id>').then(resp => resp.json()).then(data => setUserMemes(data))
         //fetches all memes that the user needs to caption
-        fetch('/memes').then(resp => resp.json()).then(data => setMemesToBeCaptioned(data))
+        fetch('/needs_responses/<int:id>').then(resp => resp.json()).then(data => setMemesToBeCaptioned(data))
         //fetches all memes that the user needs to vote on
-        //! how does this pull the proper responses though for the memes?
-        fetch('/memes').then(resp => resp.json()).then(data => setMemesToBeVotedOn(data))
+        fetch('/api/total_responses/<int:id>').then(resp => resp.json()).then(data => setMemesToBeVotedOn(data))
         //fetches all memes that the are complete
-        fetch('/memes').then(resp => resp.json()).then(data => setCompletedMemes(data))
+        fetch('/api/complete_memes/user/<int:id>').then(resp => resp.json()).then(data => setCompletedMemes(data))
         //fetches all friends of that user
-        fetch('/friends').then(resp => resp.json()).then(data => setFriends(data))
-        //fetches users who are not currently friends
-        fetch('/users').then(resp => resp.json()).then(data => setNotFriends(data))
+        fetch('/api/connection/User/<int:id>').then(resp => resp.json()).then(data => setFriends(data))
     }, [])
 
     //copntrol form for new memes
