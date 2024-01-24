@@ -228,11 +228,70 @@ def patch_response_by_response_id(id):
             db.session.commit()
 
         return response.to_dict(rules = ['-meme', '-user', '-ballots']), 202
-    except Exception as e:
-        print(e)
+    except:
         return { "errors": ["validation errors"] }, 400
 
     # curl -X PATCH -H "Content-Type:application/json" -d '{"response": "testtesttest"}' localhost:5555/Responses/1
+
+@app.delete('/Responses/<int:id>')
+def delete_response_by_id(id):
+    response = db.session.get(Response, id)
+    if not response:
+        return {"error": "no response with that ID"}, 404
+    db.session.delete(response)
+    db.session.commit()
+    return {}, 204
+
+    # curl -X DELETE localhost:5555/Responses/22
+
+#Ballot routes
+@app.get('/Ballots/<int:id>')
+def get_ballots_by_repsonse_id(id):
+    response = db.session.get(Response, id)
+    if not response:
+        return {"error": "no response with that ID"}, 404
+    return [b.to_dict(rules = ['-voter', '-response', '-contestant_id', '-voter_id']) for b in response.ballots]
+
+@app.post('/Ballots')
+def post_new_ballot():
+    try:
+        data = request.json
+        new_ballot = Ballot(response_id = data.get('response_id'), voter_id = data.get('voter_id'), score = data.get('score'))
+        db.session.add(new_ballot)
+        db.session.commit()
+        return new_ballot.to_dict(rules = ['-voter', '-response', '-contestant_id', '-voter_id']), 201
+    except:
+        return { "errors": ["validation errors"] }, 400
+    
+    #curl -X POST -H "Content-Type:application/json" -d '{"response_id": "1", "voter_id": "2", "score": "10"}' localhost:5555/Ballots
+
+@app.patch('/Ballots/<int:id>')
+def patch_ballot_by_ballot_id(id):
+    ballot = db.session.get(Ballot, id)
+    if not ballot:
+        return {"error": "no response with that ID"}, 404
+    try:
+        data = request.json
+        for key in data:
+            setattr(ballot, key, data[key])
+        db.session.add(ballot)
+        db.session.commit()
+        return ballot.to_dict(rules = ['-voter', '-response', '-contestant_id', '-voter_id']), 202
+    except:
+        return { "errors": ["validation errors"] }, 400
+
+    # curl -X PATCH -H "Content-Type:application/json" -d '{"score": "1000"}' localhost:5555/Ballots/1
+
+@app.delete('/Ballots/<int:id>')
+def delete_ballot_by_id(id):
+    ballot = db.session.get(Ballot, id)
+    if not ballot:
+        return {"error": "no response with that ID"}, 404
+    db.session.delete(ballot)
+    db.session.commit()
+    return {}, 204
+
+    # curl -X DELETE localhost:5555/Ballots/128
 
 
 
