@@ -4,6 +4,10 @@ import './index.css'
 
 function App() {
 
+  // add check session function?
+
+  
+
   return (
     <>
       <Outlet />

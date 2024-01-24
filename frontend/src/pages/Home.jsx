@@ -11,7 +11,7 @@ import Vote_Cards from "../components/Vote_Cards";
 import Caption_Cards_List from "../components/Caption_Card_List";
 
 
-function Home() {
+function Home({ setUser }) {
     const [userMemes, setUserMemes] = useState({})
     const [memesToBeCaptioned, setMemesToBeCaptioned] = useState([])
     const [memesToBeVotedOn, setMemesToBeVotedOn] = useState({})
@@ -61,6 +61,20 @@ function Home() {
         }).then(resp => resp.json())
         .then(data => console.log(data))
     }
+
+    // ************************AUTHENTICATION FUNCTIONS*********************** 
+    // LOGOUT FUNCTION - TO BE PASSED TO HEADER
+    
+    
+    // function logout() {
+    //     fetch('api/logout', { 
+    //         method: "DELETE" })
+    //         .then((res) => {
+    //         if (res.ok) {
+    //             setUser(null);
+    //         }
+    //     });
+    // }
 
     return (
         <div className = "grid_container">
