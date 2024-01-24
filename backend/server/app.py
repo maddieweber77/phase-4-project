@@ -25,14 +25,22 @@ def index():
     return "Hello world"
 
 #User Routes
-@app.get('/User/<int:id>')
+@app.get('/api/user/<int:id>')
 def get_user_by_id(id):
     user = db.session.get(User, id)
     if not user:
         return {"error": "no user with that ID"}, 404
     return user.to_dict(rules = ['-memes', '-responses', '-ballots']), 200
 
-@app.patch('/User/<int:id>')
+@app.get('/needs_responses/<int:id>')
+def get_responses_that_need_captions(int):
+    user = db.session.get(User, id)
+    if not user:
+        return {"error": "no user with that ID"}, 404
+    return [r.to_dict(rules = ['-meme', '-user', '-ballots']) for r in user.responses if not r.response == ""]
+
+
+@app.patch('/api/user/<int:id>')
 def patch_user_by_id(id):
     user = db.session.get(User, id)
     if not user:
@@ -49,7 +57,7 @@ def patch_user_by_id(id):
     
     #curl -X PATCH -H "Content-Type:application/json" -d '{"user_name": "some name"}' localhost:5555/User/1
 
-@app.post('/User')
+@app.post('/api/user')
 def post_new_user():
     try:
         data = request.json
@@ -62,7 +70,7 @@ def post_new_user():
     
     #curl -X POST -H "Content-Type:application/json" -d '{"user_name": "testtesttest", "password": "supersafepassword", "password_hash": "temptemptemp"}' localhost:5555/User
 
-@app.delete('/User/<int:id>')
+@app.delete('/api/user/<int:id>')
 def delete_user_by_id(id):
         user = db.session.get(User, id)
         if not user:
@@ -74,12 +82,12 @@ def delete_user_by_id(id):
     # curl -X DELETE localhost:5555/User/1
 
 #Connection routes 
-@app.get('/Connection/User/<int:id>')
+@app.get('/api/connection/User/<int:id>')
 def get_connections_by_id(id):
     connections = Connection.query.filter(Connection.acceptee_id == id).all()
     return [c.to_dict(rules = ['-requestee', '-acceptee']) for c in connections], 200
 
-@app.post('/Connection')
+@app.post('/api/connection')
 def post_new_connection_request():
     try:
         data = request.json
@@ -98,7 +106,7 @@ def post_new_connection_request():
     #curl -X POST -H "Content-Type:application/json" -d '{"requestee_id": "1", "acceptee_id": "2"}' localhost:5555/Connection
     #curl -X POST -H "Content-Type:application/json" -d '{"requestee_id": "2", "acceptee_id": "1"}' localhost:5555/Connection
 
-@app.patch('/Connection/<int:id>')
+@app.patch('/api/connection/<int:id>')
 def patch_connection_by_id(id):
     connection = db.session.get(Connection, id)
     if not connection:
@@ -117,7 +125,7 @@ def patch_connection_by_id(id):
     
     #curl -X PATCH -H "Content-Type:application/json" -d '{"status": true}' localhost:5555/Connection/21
     
-@app.delete('/Connection/<int:id>')
+@app.delete('/api/connection/<int:id>')
 def delet_connection_by_id(id):
     connection = db.session.get(Connection, id)
     if not connection:
@@ -132,21 +140,29 @@ def delet_connection_by_id(id):
     # curl -X DELETE localhost:5555/Connection/21
 
 #Meme Routes
-@app.get('/Memes/User/<int:id>')
+@app.get('/api/memes/user/<int:id>')
 def get_memes_by_creator_id(id):
     memes = []
     for meme in Meme.query.filter(Meme.creator_id == id).all():
         memes.append(meme.to_dict(rules = ['-creator', '-responses']))
     return memes, 200
 
-@app.get('/Memes/<int:id>')
+@app.get('/api/complete_memes/user/<int:id>')
+def get_complete_memes_by_creator_id(id):
+    memes = []
+    for meme in Meme.query.filter(Meme.creator_id == id).all():
+        if meme.accepting_responses == False and meme.accepting_votes == False:
+            memes.append(meme.to_dict(rules = ['-creator', '-responses']))
+    return memes, 200
+
+@app.get('/api/memes/<int:id>')
 def get_meme_by_id(id):
     meme = db.session.get(Meme, id)
     if not meme:
         return {"error": "no meme with that ID"}, 404 
     return meme.to_dict(rules = ['-creator', '-responses']), 200
 
-@app.post('/Memes')
+@app.post('/api/memes')
 def post_new_meme():
     try:
         data = request.json
@@ -168,7 +184,7 @@ def post_new_meme():
     
     #curl -X POST -H "Content-Type:application/json" -d '{"caption": "Test Test Test", "img_url": "https://i.chzbgr.com/full/5917000192/h596FCF10/lolcats-my-favorite-website", "creator_id": "4"}' localhost:5555/Memes
 
-@app.patch('/Memes/<int:id>')
+@app.patch('/api/memes/<int:id>')
 def patch_meme_by_id(id):
     meme = db.session.get(Meme, id)
     if not meme:
@@ -185,7 +201,7 @@ def patch_meme_by_id(id):
     
     #curl -X PATCH -H "Content-Type:application/json" -d '{"accepting_responses": false}' localhost:5555/Memes/1
 
-@app.delete('/Memes/<int:id>')
+@app.delete('/api/memes/<int:id>')
 def delete_meme_by_id(id):
     meme = db.session.get(Meme, id)
     if not meme:
@@ -197,12 +213,12 @@ def delete_meme_by_id(id):
     # curl -X DELETE localhost:5555/Memes/22
 
 #Response routes
-@app.get('/Responses/<int:id>')
+@app.get('/api/responses/<int:id>')
 def get_repsponses_by_user_id(id):
     responses = Response.query.filter(Response.contestant_id == id).all()
     return [r.to_dict(rules = ['-meme', '-user', '-ballots']) for r in responses], 200
 
-@app.get('/Total_Responses/<int:id>')
+@app.get('/api/total_responses/<int:id>')
 def get_all_unvoted_responses_for_a_user(id):
     user = db.session.get(User, id)
     if not user:
@@ -233,7 +249,7 @@ def get_all_unvoted_responses_for_a_user(id):
     return [r.to_dict(rules = ['-meme', '-user', '-ballots']) for r in total_responses_to_vote_on]
 
 
-@app.patch('/Responses/<int:id>')
+@app.patch('/api/responses/<int:id>')
 def patch_response_by_response_id(id):
     response = db.session.get(Response, id)
     if not response:
@@ -262,7 +278,7 @@ def patch_response_by_response_id(id):
 
     # curl -X PATCH -H "Content-Type:application/json" -d '{"response": "testtesttest"}' localhost:5555/Responses/1
 
-@app.delete('/Responses/<int:id>')
+@app.delete('/api/responses/<int:id>')
 def delete_response_by_id(id):
     response = db.session.get(Response, id)
     if not response:
@@ -274,14 +290,14 @@ def delete_response_by_id(id):
     # curl -X DELETE localhost:5555/Responses/22
 
 #Ballot routes
-@app.get('/Ballots/<int:id>')
+@app.get('/api/ballots/<int:id>')
 def get_ballots_by_repsonse_id(id):
     response = db.session.get(Response, id)
     if not response:
         return {"error": "no response with that ID"}, 404
     return [b.to_dict(rules = ['-voter', '-response', '-contestant_id', '-voter_id']) for b in response.ballots]
 
-@app.post('/Ballots')
+@app.post('/api/ballots')
 def post_new_ballot():
     try:
         data = request.json
@@ -294,7 +310,7 @@ def post_new_ballot():
     
     #curl -X POST -H "Content-Type:application/json" -d '{"response_id": "1", "voter_id": "2", "score": "10"}' localhost:5555/Ballots
 
-@app.patch('/Ballots/<int:id>')
+@app.patch('/api/ballots/<int:id>')
 def patch_ballot_by_ballot_id(id):
     ballot = db.session.get(Ballot, id)
     if not ballot:
@@ -311,7 +327,7 @@ def patch_ballot_by_ballot_id(id):
 
     # curl -X PATCH -H "Content-Type:application/json" -d '{"score": "1000"}' localhost:5555/Ballots/1
 
-@app.delete('/Ballots/<int:id>')
+@app.delete('/api/ballots/<int:id>')
 def delete_ballot_by_id(id):
     ballot = db.session.get(Ballot, id)
     if not ballot:
@@ -325,7 +341,7 @@ def delete_ballot_by_id(id):
 
 
 # ***************Authentication GET, POST, and DELETE requests**********************
-@app.get('/check_session')
+@app.get('/api/check_session')
 def check_session():
     user = db.session.get(User, session.get(id))
     # print to check the session object
@@ -336,7 +352,7 @@ def check_session():
 
     return {}
 
-@app.delete('/logout')
+@app.delete('/api/logout')
 def logout():
 
     try: 
