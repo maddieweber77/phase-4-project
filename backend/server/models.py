@@ -25,7 +25,11 @@ class User(db.Model, SerializerMixin):
     responses = db.relationship("Response", back_populates = 'user', cascade = 'all, delete-orphan')
     ballots = db.relationship('Ballot', back_populates='voter', cascade = 'all, delete-orphan')
 
-    serialize_rules = ['-memes.creator', '-responses.user', '-password', '-ballots.voter']
+
+    serialize_rules = ('-memes.creator', '-memes.responses', '-responses.user', '-ballots.voter', '-ballots.response',)
+
+    def __repr__(self):
+        return f'<User {self.id}>'
 
 
 class Connection(db.Model, SerializerMixin):
@@ -38,6 +42,9 @@ class Connection(db.Model, SerializerMixin):
 
     requestee = db.relationship("User", foreign_keys=[requestee_id])
     acceptee = db.relationship("User", foreign_keys=[acceptee_id])
+
+    def __repr__(self):
+        return f'<Connection {self.id}>'
 
 
 class Meme(db.Model, SerializerMixin):
@@ -54,7 +61,10 @@ class Meme(db.Model, SerializerMixin):
     creator = db.relationship("User", back_populates = 'memes')
     responses = db.relationship('Response', back_populates = 'meme', cascade = 'all, delete-orphan')
 
-    serialize_rules = ['-creator.memes', '-responses.meme']
+    serialize_rules = ('-creator.memes', '-creator.responses', '-creator.ballots', '-responses.meme', '-responses.user', '-responses.ballots',)
+
+    def __repr__(self):
+        return f'<Meme {self.id}>'
 
 
 class Response(db.Model, SerializerMixin):
@@ -70,7 +80,10 @@ class Response(db.Model, SerializerMixin):
     user = db.relationship('User', back_populates = 'responses')
     ballots = db.relationship('Ballot', back_populates = 'response', cascade = 'all, delete-orphan')
 
-    serialize_rules = ['-meme.responses', '-user.responses', 'ballots.response']
+    serialize_rules = ('-meme.responses', '-user.responses', '-ballots.response', '-ballots.voter',)
+
+    def __repr__(self):
+        return f'<Response {self.id}>'
 
 class Ballot(db.Model, SerializerMixin):
     __tablename__ = "ballots"
@@ -83,5 +96,8 @@ class Ballot(db.Model, SerializerMixin):
     response = db.relationship('Response', back_populates='ballots')
     voter = db.relationship('User', back_populates='ballots')
 
-    serialize_rules = ['-response.ballots', '-voter.ballots']
+    serialize_rules = ('-response.ballots', '-voter.ballots',)
+
+    def __repr__(self):
+        return f'<Ballot {self.id}>'
 
