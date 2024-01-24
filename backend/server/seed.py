@@ -24,9 +24,9 @@ if __name__ == '__main__':
 #seed users
         new_users = []
         # Inside the loop where you seed users
-        for _ in range(20):
-            new_user = User(user_name=fake.name(), password=fake.name())
-            password_hash = bcrypt.generate_password_hash(new_user.password)
+        for i in range(20):
+            new_user = User(user_name=str(i))
+            password_hash = bcrypt.generate_password_hash('a')
             new_user.password_hash = password_hash
             db.session.add(new_user)
             new_users.append(new_user)

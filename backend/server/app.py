@@ -5,10 +5,8 @@ from flask_cors import CORS
 from flask_bcrypt import Bcrypt
 from dotenv import dotenv_values
 from models import db, User, Connection, Meme, Response
+
 config = dotenv_values(".env")
-
-
-from models import db
 
 app = Flask(__name__)
 app.secret_key = config['FLASK_SECRET_KEY']
@@ -31,12 +29,12 @@ def index():
 def check_session():
     user = db.session.get(User, session.get(id))
     # print to check the session object
-    print(session)
-
+    # print(session)
+    print('check session')
     if user:
         return user.to_dict(['-password_hash']), 200
 
-    return {}
+    return {'error':'user not found'}, 404
 
 @app.delete('/logout')
 def logout():
@@ -48,18 +46,20 @@ def logout():
     except:
         return {'Message': 'No user logged in'}, 404
 
-@app.post('/login')
+@app.post('/api/login')
 def login():
     
+    print("request")
     data = request.json
 
-    user = User.query.filter(User.name == data.get('password')).first()
-
+    user = User.query.filter(User.user_name == data.get('username')).first()
+    print(data)
+    print(user)
     if user and bcrypt.check_password_hash(user.password_hash, data.get('password')):
         session["user_id"] = user.id
         print("success")
 
-        return user.to_dict(), 200
+        return user.to_dict(rules=['-password_hash']), 200
     else:
         return {"error": "Invalid username or password"}, 401
 
