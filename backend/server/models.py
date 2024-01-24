@@ -26,6 +26,9 @@ class User(db.Model, SerializerMixin):
 
     serialize_rules = ['-memes', '-responses', '-password', '-ballots']
 
+    def __repr__(self):
+        return f'<User {self.id}>'
+
 
 class Connection(db.Model, SerializerMixin):
     __tablename__ = "connections"
@@ -37,6 +40,9 @@ class Connection(db.Model, SerializerMixin):
 
     requestee = db.relationship("User", foreign_keys=[requestee_id])
     acceptee = db.relationship("User", foreign_keys=[acceptee_id])
+
+    def __repr__(self):
+        return f'<Connection {self.id}>'
 
 
 class Meme(db.Model, SerializerMixin):
@@ -55,6 +61,10 @@ class Meme(db.Model, SerializerMixin):
 
     serialize_rules = ['-creator', '-responses']
 
+    def __repr__(self):
+        return f'<Meme {self.id}>'
+
+
 
 class Response(db.Model, SerializerMixin):
     __tablename__ = "responses"
@@ -69,7 +79,12 @@ class Response(db.Model, SerializerMixin):
     user = db.relationship('User', back_populates = 'responses')
     ballots = db.relationship('Ballot', back_populates = 'response', cascade = 'all, delete-orphan')
 
+
     serialize_rules = ['-meme', '-user', 'ballots']
+
+
+    def __repr__(self):
+        return f'<Response {self.id}>'
 
 class Ballot(db.Model, SerializerMixin):
     __tablename__ = "ballots"
@@ -82,5 +97,10 @@ class Ballot(db.Model, SerializerMixin):
     response = db.relationship('Response', back_populates='ballots')
     voter = db.relationship('User', back_populates='ballots')
 
+
     serialize_rules = ['-response', '-voter']
+
+    def __repr__(self):
+        return f'<Ballot {self.id}>'
+
 
