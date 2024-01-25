@@ -58,7 +58,7 @@ function Login(){
 
     return (
         <div className="login-page-div">
-            <h1 id='app-title'>BATTLEMEMES</h1>
+            <h1>BATTLEMEMES</h1>
             <LoginForm attemptLogin={attemptLogin}/>
         </div>
         )

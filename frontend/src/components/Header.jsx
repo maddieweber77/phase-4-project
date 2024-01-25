@@ -40,19 +40,25 @@ function Header(){
 
     return(
         <div className="header-div">
+            <div className = {"nav_user_info"}>
+                <img className={"nav_img"} src = {user.profile_picture}/>
+                <h3>User: {user.user_name}</h3>
+            </div>
             <h1 id='app-title'>BATTLEMEMES</h1>
-            <NavLink to='/Home'>
-                <button>Home</button>
-            </NavLink>
-            <NavLink to='/All_Open_Memes'>
-                <button>Caption Meme</button>
-            </NavLink>
-            <NavLink to='/All_Finished_Memes'>
-                <button>Complete Memes</button>
-            </NavLink>
-            <NavLink to='/'>
-                <button onClick={logout}>Logout</button>
-            </NavLink>
+            <div className = "div_buttons">
+                <NavLink to='/Home'>
+                    <button>Home</button>
+                </NavLink>        
+                <NavLink to='/All_Open_Memes'>
+                    <button>Caption Meme</button>
+                </NavLink>
+                <NavLink to='/All_Finished_Memes'>
+                    <button>Complete Memes</button>
+                </NavLink>
+                <NavLink to='/'>
+                    <button onClick={logout}>Logout</button>
+                </NavLink>
+            </div>
         
             {/* if the user is signed in, below button should be "Profile" but otherwise should be "Sign In". We also need to redirect them to either the signin page or the profile depending on the button*/}
             {/* {isLoggedIn ? 

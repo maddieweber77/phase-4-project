@@ -21,7 +21,7 @@ function Captioning_Meme_Card({meme, handleCaption}) {
             <h3 className="meme_description">{meme.description}</h3>
             <img className = "meme_img" src = {meme.img_url}/>
             <div className="captions_list">
-                {captions}
+                {captions.reverse()}
                 <form className = {"new_caption_form"} onSubmit={handleCaptionSubmit}>
                     <label htmlFor="caption">Submit New Caption</label>
                     <input id="caption" type="text" onChange = {handleNewCaption} value = {newCaption}/>

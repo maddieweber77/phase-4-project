@@ -61,9 +61,8 @@ function Home() {
     //!! Need to updated user idea to be ID of logged in user
     const [newMeme, setNewMeme] = useState({
         "img_url" : "",
-
-        "caption" : "",
-        "user_id" : "1"
+        "description" : "",
+        "user_id" : user.id
     })
 
     function handleNewMemeInputs(e) {
@@ -83,7 +82,15 @@ function Home() {
             },
             body: JSON.stringify(newMeme)
         }).then(resp => resp.json())
-        .then(data => console.log(data))
+        .then(data => {
+            setUserMemes([...usersMeme, data])
+        })
+        setNewMeme(
+            {
+            "img_url" : "",
+            "description" : "",
+            }
+        )
     }
 
     // if (!user) {
@@ -105,13 +112,13 @@ function Home() {
                         </div>
                         <div className = "entry_field">
                             <label htmlFor="description">Meme Description</label>
-                            <input id="description" type="text" onChange = {handleNewMemeInputs} value = {newMeme.caption}/>
+                            <input id="description" type="text" onChange = {handleNewMemeInputs} value = {newMeme.description}/>
                         </div>
                         <input className = "new_meme_submit" type = "submit" />
                     </form>
                 </div>
             </div>
-            {memeCardList}
+            {memeCardList.reverse()}
         </div>
     );
 }
