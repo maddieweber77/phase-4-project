@@ -3,11 +3,13 @@ import { NavLink } from "react-router-dom";
 import { Link } from 'react-router-dom';
 import Header from "../components/Header";
 import Meme_Card from "../components/Meme_Card";
+import { useUser } from "../UserContext";
 
 
 function Home() {
 
     const [usersMeme, setUserMemes] = useState([])
+    
 
     useEffect(() => {
         //fetches all memes for the user
@@ -25,7 +27,7 @@ function Home() {
         "name": "",
         "img_url" : "",
         "caption" : "",
-        "creator_id" : "1"
+        "user_id" : "1"
     })
 
     function handleNewMemeInputs(e) {

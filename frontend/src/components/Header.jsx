@@ -1,15 +1,19 @@
 import React, {useState} from "react";
 import { NavLink } from "react-router-dom";
+import { useUser } from "../UserContext";
 
 
 
 function Header(){
 
+    const {user, setUser} = useUser()
+
     // Will likely have to move logout function to Login or Home
-    // Set up handleClickLogout function 
+    // Set up handleClickLogout function
+    // need to pass down setUser
 
     function logout() {
-        fetch(`/logout`, { method: "DELETE" }).then((res) => {
+        fetch(`/api/logout`, { method: "DELETE" }).then((res) => {
             if (res.ok) {
                 setUser(null);
             }
@@ -24,12 +28,6 @@ function Header(){
             </NavLink>        
             <NavLink to='/Profile'>
                 <button>Profile</button>
-            </NavLink>
-            <NavLink to='/Caption-Meme'>
-                <button>Caption Meme</button>
-            </NavLink>
-            <NavLink to='/Battle-Memes'>
-                <button>Battle Memes</button>
             </NavLink>
             <NavLink to='/'>
                 <button onClick={logout}>Logout</button>
