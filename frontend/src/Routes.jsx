@@ -8,7 +8,7 @@ import Home from "./pages/3Home";
 import All_open_memes from "./pages/4All_open_memes";
 import All_finished_memes from "./pages/5All_finished_memes";
 import ErrorPage from "./pages/ErrorPage";
-import Profile from "./pages/Profile";
+
 
 
 async function memeLoader() {
@@ -42,11 +42,6 @@ const Routes = createBrowserRouter([
             {
                 path: "/All_Finished_Memes",
                 element: <All_finished_memes />,
-                errorElement: <ErrorPage />
-            },
-            {
-                path: "/Profile",
-                element: <Profile />,
                 errorElement: <ErrorPage />
             },
         ]

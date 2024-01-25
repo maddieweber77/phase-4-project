@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, Navigate } from "react-router-dom";
 import { useUser } from "../UserContext";
 
 
@@ -18,6 +18,9 @@ function Header(){
                 setUser(null);
             }
         });
+    }
+    if (null) {
+        <Navigate to='/' />
     }
 
     return(
