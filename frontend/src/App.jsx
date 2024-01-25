@@ -1,19 +1,17 @@
-import { Outlet } from 'react-router-dom'
+import React from 'react';
+import { Outlet } from 'react-router-dom';
 import Header from "./components/Header";
 import './index.css'
-import './app.css'
+import './App.css'
+import { UserProvider } from './UserContext';
 
 function App() {
-
-  // add check session function?
-
-  
-
   return (
-    <>
+    <UserProvider>
       <Outlet />
-    </>
-  )
+    </UserProvider>
+  );
 }
+
 
 export default App;

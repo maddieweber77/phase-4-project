@@ -28,11 +28,11 @@ def index():
 
 #Meme Routes
 @app.get('/api/memes/<int:id>')
-def get_memes_by_creator_id(id):
+def get_memes_by_user_id(id):
     user = db.session.get(User, id)
     if not user:
         return {"error", "User not found"}, 404
-    memes = Meme.query.filter(Meme.creator_id == id).all()
+    memes = Meme.query.filter(Meme.user_id == id).all()
     return [m.to_dict(0) for m in memes], 200
 
 @app.get('/api/all_open_memes/<int:id>')
@@ -40,7 +40,7 @@ def get_all_open_memes_for_a_user(id):
     user = db.session.get(User, id)
     if not user:
         return {"error", "User not found"}, 404
-    memes = Meme.query.filter(Meme.creator_id != id, Meme.accepting_captions == True).all()
+    memes = Meme.query.filter(Meme.user_id != id, Meme.accepting_captions == True).all()
     return [m.to_dict(0) for m in memes], 200
 
 @app.get('/api/all_finished_memes')
@@ -53,7 +53,7 @@ def get_all_finished_memes():
 def post_new_meme():
     try:
         data = request.json
-        new_meme = Meme(img_url = data.get('img_url'), description = data.get('description'), creator_id = data.get('creator_id'))
+        new_meme = Meme(img_url = data.get('img_url'), description = data.get('description'), user_id = data.get('user_id'))
         db.session.add(new_meme)
         db.session.commit()
         return new_meme.to_dict(), 201
@@ -80,7 +80,7 @@ def patch_meme_by_id(id):
 def create_new_caption():
     try:
         data = request.json
-        new_caption= Caption(entry = data.get('entry'), meme_id = data.get('meme_id'), contestant_id = data.get('contestant_id'))
+        new_caption= Caption(entry = data.get('entry'), meme_id = data.get('meme_id'), user_id = data.get('user_id'))
         db.session.add(new_caption)
         db.session.commit()
         return new_caption.to_dict(), 201

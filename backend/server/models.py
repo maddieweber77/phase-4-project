@@ -36,7 +36,7 @@ class Meme(db.Model, SerializerMixin):
     description = db.Column(db.String)
     accepting_captions = db.Column(db.Boolean, default = True)
     winning_caption = db.Column(db.Integer, nullable = True)
-    creator_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
     user = db.relationship('User', back_populates = 'memes')
     captions = db.relationship('Caption', back_populates = 'meme', cascade = 'all, delete-orphan')
@@ -48,11 +48,11 @@ class Meme(db.Model, SerializerMixin):
     
 class Caption(db.Model, SerializerMixin):
     __tablename__ = 'captions'
-     
+    
     id = db.Column(db.Integer, primary_key = True)
     entry = db.Column(db.String, nullable = False)
     meme_id = db.Column(db.Integer, db.ForeignKey('memes.id'))
-    contestant_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
     meme = db.relationship('Meme', back_populates = 'captions')
     user = db.relationship('User', back_populates = 'captions')

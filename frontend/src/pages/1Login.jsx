@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { Navigate } from 'react-router-dom';
 import LoginForm from "../components/LoginForm";
+import { useUser } from "../UserContext";
+
 
 
 
 function Login(){
 
-    const [user, setUser] = useState('')
+    const {user, setUser} = useUser()
 
     useEffect(() => {
 
-        fetch('api/check_session')
+        fetch('/api/check_session')
         .then((res) => {
             if (res.ok) {
                 res.json()
@@ -53,6 +55,7 @@ function Login(){
             if (user) {
                 return <Navigate to='/Home' />;
             } 
+            // add unsuccessful login popup
             
 
     return (
