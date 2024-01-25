@@ -3,19 +3,20 @@ import { NavLink } from "react-router-dom";
 import { Link } from 'react-router-dom';
 import Header from "../components/Header";
 import Meme_Card from "../components/Meme_Card";
-import { useUser } from "../UserContext";
 import Winning_Meme_Card from "../components/Winning_Meme_Card";
+import { useUser } from "../UserContext";
 
 
 
 function Home() {
 
     const [usersMeme, setUserMemes] = useState([])
+    const {user, setUser} = useUser()
     
 
     useEffect(() => {
         //fetches all memes for the user
-        fetch('/api/memes/1').then(resp => resp.json()).then(data => setUserMemes(data))
+        fetch(`/api/memes/${user.id}`).then(resp => resp.json()).then(data => setUserMemes(data))
     }, [])
 
      //handles patching memes

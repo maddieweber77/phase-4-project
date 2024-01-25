@@ -8,8 +8,8 @@ import Winning_Meme_Card from "../components/Winning_Meme_Card";
 function All_finished_memes() {
 
 const [allFinishedMemes, setAllFinishedMemes] = useState([])
-    
-fetch('/api/all_finished_memes').then(resp => resp.json()).then(data => setAllFinishedMemes(data))
+
+useEffect(() => {fetch('/api/all_finished_memes').then(resp => resp.json()).then(data => setAllFinishedMemes(data))}, [])
 
 let complete_memes = allFinishedMemes.map(meme => <Winning_Meme_Card key = {meme.id} meme = {meme}/>)
 

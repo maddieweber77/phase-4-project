@@ -3,20 +3,22 @@ import { NavLink } from "react-router-dom";
 import { Link } from 'react-router-dom';
 import Header from "../components/Header";
 import Captioning_Meme_Card from "../components/Captioning_Meme_Card";
+import { useUser } from "../UserContext";
 
 
 function All_open_memes() {
 
     const [allOpenMemes, setAllOpenMemes] = useState([])
+    const {user, setUser} = useUser()
 
-    fetch('/api/all_open_memes/1').then(resp => resp.json()).then(data => setAllOpenMemes(data))
-
-//!! need to pull down user id from loggin
+    useEffect(() => {
+    fetch(`/api/all_open_memes/${user.id}`).then(resp => resp.json()).then(data => setAllOpenMemes(data))}
+    , [])
 
     function handleCaption(caption, memeId) {
         let newCaption = {
             "entry": caption,
-            "contestant_id": 1,
+            "contestant_id": user.id,
             "meme_id": memeId
         }
         fetch('/api/caption', {
@@ -26,7 +28,16 @@ function All_open_memes() {
             },
             body: JSON.stringify(newCaption)
         }).then(resp => resp.json())
-        .then(data => console.log(data))
+        .then((data) => {
+            let newOpenMemeList = allOpenMemes.map(meme => {
+                if(meme.id == memeId){
+                    meme.captions.push(data)
+                }
+                return meme
+            })
+            setAllOpenMemes(newOpenMemeList)
+            }
+            )
     }
 
     const listOfOpenMemes = allOpenMemes.map(meme => <Captioning_Meme_Card key = {meme.id} meme = {meme} handleCaption = {handleCaption}/>)
