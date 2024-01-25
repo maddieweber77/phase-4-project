@@ -60,37 +60,83 @@
 }
 
 /*! below is how u make text look like meme text! */
-/* .response-overlay {
+.response-overlay {
+  font-size: 40px;
   font-weight: bold;
   -webkit-text-stroke: 0.06em black;
   -webkit-text-fill-color: white;
+  font-family: impact;
 
   position: absolute;
-  bottom: 1%;
+  bottom: -40%;
   left: 50%;
   transform: translateX(-50%);
   padding: 5px;
   text-align: center;
-  white-space: nowrap;
-} */
+  white-space: wrap;
+}
+
+
+/* submit new meme */
+.meme_creator {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  width: 70%;
+  margin-left: 15%;
+  margin-right: 15%;
+  border-style: solid;
+  border-width: 6px;
+  border-radius: 5px;
+  text-align: center;
+  border-color: black;
+}
+
+.meme_creator_title{
+  background-color: black;
+  margin-top: 0px;
+}
+
+#img_creator_meme {
+  height: 600px;
+}
+
+.entry_field {
+  background-color: white;
+  color: black;
+  width: 30%;
+  margin-left: 35%;
+  margin-right: 35%;
+  height: 30px;
+  margin-top: 20px;
+  border-radius: 5px;
+}
+
+.entry_field label {
+  margin-right: 5px;
+}
+
+.new_meme_submit {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
 
 /* caption card css */
 .meme_card {
   margin-top: 20px;
   margin-bottom: 20px;
-  width: 80%;
-  margin-left: 10%;
-  margin-right: 10%;
+  width: 70%;
+  margin-left: 15%;
+  margin-right: 15%;
   border-style: solid;
   border-width: 6px;
   border-radius: 5px;
   text-align: center;
-  border-color: #6F3096;
+  border-color: black;
 }
 
 .meme_description {
-  background-color: #6F3096;
-  color: black;
+  background-color: black;
+  color: white;
   margin-top: 0px;
   font-size: 25px;
   height: 40px;
@@ -99,4 +145,19 @@
 .meme_img {
   height: 600px;
   width: auto;
+}
+
+.caption {
+  margin-right: 20%;
+  margin-left: 20%;
+  padding: 4px;
+  text-align: center;
+  width: 60%;
+  background-color: white;
+  border-radius: 5px;
+  color: black;
+}
+
+.caption:hover {
+  background-color: grey;
 }
