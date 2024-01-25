@@ -2,16 +2,22 @@ import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import { Link } from 'react-router-dom';
 import Header from "../components/Header";
+import Meme_Card from "../components/Meme_Card";
 
 
 function Home() {
 
-    const [usersMeme, setUserMemes] = useState({})
+    const [usersMeme, setUserMemes] = useState([])
 
     useEffect(() => {
         //fetches all memes for the user
         fetch('/api/memes/1').then(resp => resp.json()).then(data => setUserMemes(data))
     }, [])
+
+    console.log(usersMeme)
+
+    //creates meme cards
+    const memeCardList = usersMeme.map(meme => <Meme_Card key = {meme.id} meme = {meme}/>)
 
     //copntrol form for new memes
     //!! Need to updated user idea to be ID of logged in user
@@ -46,7 +52,7 @@ function Home() {
     '/api/meme/<int:id>'
 
     return (
-        <div className = "grid_container">
+        <div>
             <Header />
             <div className="meme_creator">
                 <h1>Add a Meme!</h1>
@@ -63,6 +69,7 @@ function Home() {
                     </form>
                 </div>
             </div>
+            {memeCardList}
         </div>
     );
 }

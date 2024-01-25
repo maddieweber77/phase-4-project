@@ -17,34 +17,6 @@
   font-size: 2.0em;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-}
-
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
-}
-
 .card {
   padding: 2em;
 }
@@ -53,9 +25,6 @@
   color: #888;
 }
 
-.grid_container {
-  width: 100%;
-}
 
 /* Login page */
 
@@ -90,52 +59,8 @@
   padding: 0.3em 1.2em;
 }
 
-/* *******VOTE CARDS*************** */
-
-.vote-cards-container,
-.leaderboard-container {
-  width: 100%;
-  
-  box-sizing: border-box; /* Include padding and border in the width calculation */
-}
-
-.vote-cards-container-bigger {
-  padding: 20px; /* Adjust the padding as needed */
-  background-color: #e1f5fe; /* Set the background color for Vote_Cards */
-}
-
-.vote-cards-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-button {
-  margin-top: 10px;
-  margin-bottom: 10px;
-}
-
-.cards-wrapper {
-  display: flex;
-  justify-content: space-around;
-  flex-wrap: wrap;
-  gap: 20px;
-}
-
-.container-card {
-  position: relative;
-  width: 200px; 
-}
-
-.meme-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover; 
-}
-
-
 /*! below is how u make text look like meme text! */
-.response-overlay {
+/* .response-overlay {
   font-weight: bold;
   -webkit-text-stroke: 0.06em black;
   -webkit-text-fill-color: white;
@@ -147,43 +72,31 @@ button {
   padding: 5px;
   text-align: center;
   white-space: nowrap;
+} */
+
+/* caption card css */
+.meme_card {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  width: 80%;
+  margin-left: 10%;
+  margin-right: 10%;
+  border-style: solid;
+  border-width: 6px;
+  border-radius: 5px;
+  text-align: center;
+  border-color: #6F3096;
 }
 
-
-/* *******LEADERBOARD CARD*************** */
-
-.leaderboard-container {
-  padding: 20px; /* Adjust the padding as needed */
-  background-color: rgba(20, 30, 110, 0.90); /* Set the background color for Leaderboard */
+.meme_description {
+  background-color: #6F3096;
+  color: black;
+  margin-top: 0px;
+  font-size: 25px;
+  height: 40px;
 }
 
-.leaderboard-card {
-  width: 100%;
-}
-
-.leaderboard-list {
-  color: #f9f9f9;
-  font-size: 1.2em;
-}
-
-.leaderboard-place {
-  color: #f9f9f9;
-}
-
-/* ***************CAPTION CARD************** */
-
-.caption-card-bin {
-  display: flex;
-  flex-wrap: wrap;
-  flex-direction: row;
-}
-
-.caption-card {
-  width: 300px;
-  height: 310px;
-  border-radius: 12px
-}
-
-.uncaptioned-meme-image {
-  object-fit: fill;
+.meme_img {
+  height: 600px;
+  width: auto;
 }
