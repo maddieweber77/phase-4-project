@@ -4,7 +4,7 @@ from flask_migrate import Migrate
 from flask_cors import CORS
 from flask_bcrypt import Bcrypt
 from dotenv import dotenv_values
-from models import db, User, Connection, Meme, Response, Ballot
+from models import db, User, Meme, Caption
 
 config = dotenv_values(".env")
 
@@ -25,319 +25,67 @@ def index():
     return "Hello world"
 
 #User Routes
-@app.get('/api/user/<int:id>')
-def get_user_by_id(id):
-    user = db.session.get(User, id)
-    if not user:
-        return {"error": "no user with that ID"}, 404
-    return user.to_dict(rules = ['-memes', '-responses', '-ballots']), 200
-
-@app.get('/needs_responses/<int:id>')
-def get_responses_that_need_captions(int):
-    user = db.session.get(User, id)
-    if not user:
-        return {"error": "no user with that ID"}, 404
-    return [r.to_dict(rules = ['-meme', '-user', '-ballots']) for r in user.responses if not r.response == ""]
-
-
-@app.patch('/api/user/<int:id>')
-def patch_user_by_id(id):
-    user = db.session.get(User, id)
-    if not user:
-        return {"error": "no user with that ID"}, 404
-    try:
-        data = request.json
-        for key in data:
-            setattr(user, key, data[key])
-        db.session.add(user)
-        db.session.commit()
-        return user.to_dict(rules = ['-memes', '-responses', '-ballots']), 202
-    except:
-        return { "errors": ["validation errors"] }, 400
-    
-    #curl -X PATCH -H "Content-Type:application/json" -d '{"user_name": "some name"}' localhost:5555/User/1
-
-@app.post('/api/user')
-def post_new_user():
-    try:
-        data = request.json
-        new_user = User(user_name = data.get("user_name"), password = data.get("password"), password_hash = data.get("password_hash"))
-        db.session.add(new_user)
-        db.session.commit()
-        return new_user.to_dict(rules = ['-memes', '-responses', '-ballots']), 201
-    except:
-        return { "errors": ["validation errors"] }, 400
-    
-    #curl -X POST -H "Content-Type:application/json" -d '{"user_name": "testtesttest", "password": "supersafepassword", "password_hash": "temptemptemp"}' localhost:5555/User
-
-@app.delete('/api/user/<int:id>')
-def delete_user_by_id(id):
-        user = db.session.get(User, id)
-        if not user:
-            return {"error": "no user with that ID"}, 404
-        db.session.delete(user)
-        db.session.commit()
-        return {}, 204
-
-    # curl -X DELETE localhost:5555/User/1
-
-#Connection routes 
-@app.get('/api/connection/User/<int:id>')
-def get_connections_by_id(id):
-    connections = Connection.query.filter(Connection.acceptee_id == id).all()
-    return [c.to_dict(rules = ['-requestee', '-acceptee']) for c in connections], 200
-
-@app.post('/api/connection')
-def post_new_connection_request():
-    try:
-        data = request.json
-        requester = data.get('requestee_id')
-        acceptor = data.get('acceptee_id')
-        if Connection.query.filter(Connection.acceptee_id == requester, Connection.requestee_id == acceptor).all():
-            return {"error": "open request already pending"}, 400
-        new_connection = Connection(requestee_id = requester, acceptee_id = acceptor)
-        db.session.add(new_connection)
-        db.session.commit()
-        return new_connection.to_dict(rules = ['-requestee', '-acceptee']), 201
-    except Exception as e:
-        print(e)
-        return { "errors": ["validation errors"] }, 400
-    
-    #curl -X POST -H "Content-Type:application/json" -d '{"requestee_id": "1", "acceptee_id": "2"}' localhost:5555/Connection
-    #curl -X POST -H "Content-Type:application/json" -d '{"requestee_id": "2", "acceptee_id": "1"}' localhost:5555/Connection
-
-@app.patch('/api/connection/<int:id>')
-def patch_connection_by_id(id):
-    connection = db.session.get(Connection, id)
-    if not connection:
-        return {"error": "no connection with that ID"}, 404
-    try:
-        data = request.json
-        for key in data:
-            setattr(connection, key, data[key])
-        db.session.add(connection)
-        reciprocal_connection = Connection(status = True, requestee_id = connection.acceptee_id, acceptee_id = connection.requestee_id)
-        db.session.add(reciprocal_connection)
-        db.session.commit()
-        return connection.to_dict(rules = ['-requestee', '-acceptee']), 202
-    except:
-        return { "errors": ["validation errors"] }, 400
-    
-    #curl -X PATCH -H "Content-Type:application/json" -d '{"status": true}' localhost:5555/Connection/21
-    
-@app.delete('/api/connection/<int:id>')
-def delet_connection_by_id(id):
-    connection = db.session.get(Connection, id)
-    if not connection:
-        return {"error": "no connection with that ID"}, 404
-    db.session.delete(connection)
-    reciprocal_connection = Connection.query.filter(Connection.requestee_id == connection.acceptee_id, Connection.acceptee_id == connection.requestee_id).first()
-    if reciprocal_connection:
-        db.session.delete(reciprocal_connection)
-    db.session.commit()
-    return {}, 204
-
-    # curl -X DELETE localhost:5555/Connection/21
 
 #Meme Routes
-@app.get('/api/memes/user/<int:id>')
-def get_memes_by_creator_id(id):
-    memes = []
-    for meme in Meme.query.filter(Meme.creator_id == id).all():
-        memes.append(meme.to_dict(rules = ['-creator', '-responses']))
-    return memes, 200
-
-@app.get('/api/complete_memes/user/<int:id>')
-def get_complete_memes_by_creator_id(id):
-    memes = []
-    for meme in Meme.query.filter(Meme.creator_id == id).all():
-        if meme.accepting_responses == False and meme.accepting_votes == False:
-            memes.append(meme.to_dict(rules = ['-creator', '-responses']))
-    return memes, 200
-
 @app.get('/api/memes/<int:id>')
-def get_meme_by_id(id):
-    meme = db.session.get(Meme, id)
-    if not meme:
-        return {"error": "no meme with that ID"}, 404 
-    return meme.to_dict(rules = ['-creator', '-responses']), 200
+def get_memes_by_creator_id(id):
+    user = db.session.get(User, id)
+    if not user:
+        return {"error", "User not found"}, 404
+    memes = Meme.query.filter(Meme.creator_id == id).all()
+    return [m.to_dict(0) for m in memes], 200
 
-@app.post('/api/memes')
+@app.get('/api/all_open_memes/<int:id>')
+def get_all_open_memes_for_a_user(id):
+    user = db.session.get(User, id)
+    if not user:
+        return {"error", "User not found"}, 404
+    memes = Meme.query.filter(Meme.creator_id != id, Meme.accepting_captions == True).all()
+    return [m.to_dict(0) for m in memes], 200
+
+@app.get('/api/all_finished_memes')
+def get_all_finished_memes():
+    memes = Meme.query.filter(Meme.accepting_captions == False).all()
+    return [m.to_dict(0) for m in memes], 200
+
+
+@app.post('/api/meme')
 def post_new_meme():
     try:
         data = request.json
-        creator = data.get('creator_id')
-        new_meme = Meme(caption = data.get('caption'), img_url = data.get('img_url'), creator_id = creator)
+        new_meme = Meme(img_url = data.get('img_url'), description = data.get('description'), creator_id = data.get('creator_id'))
         db.session.add(new_meme)
         db.session.commit()
-
-        connections = Connection.query.filter(Connection.acceptee_id == creator).all()
-        for connection in connections:
-            new_reponse = Response(meme_id = new_meme.id, contestant_id = connection.id)
-            db.session.add(new_reponse)
-        db.session.commit()
-
-        return new_meme.to_dict(rules = ['-creator', '-responses']), 201
-    except Exception as e:
-        print(e)
-        return { "errors": ["validation errors"] }, 400
+        return new_meme.to_dict(), 201
+    except:
+        return {"error", "validation errors"}, 400
     
-    #curl -X POST -H "Content-Type:application/json" -d '{"caption": "Test Test Test", "img_url": "https://i.chzbgr.com/full/5917000192/h596FCF10/lolcats-my-favorite-website", "creator_id": "4"}' localhost:5555/Memes
-
-@app.patch('/api/memes/<int:id>')
+@app.patch('/api/meme/<int:id>')
 def patch_meme_by_id(id):
     meme = db.session.get(Meme, id)
     if not meme:
-        return {"error": "no meme with that ID"}, 404 
+         return {"error", "Meme not found"}, 404
     try:
         data = request.json
         for key in data:
             setattr(meme, key, data[key])
         db.session.add(meme)
         db.session.commit()
-        return meme.to_dict(rules = ['-creator', '-responses']), 202
+        return meme.to_dict(), 202
     except:
-        return { "errors": ["validation errors"] }, 400
+        return {"error", "validation errors"}, 400
     
-    #curl -X PATCH -H "Content-Type:application/json" -d '{"accepting_responses": false}' localhost:5555/Memes/1
-
-@app.delete('/api/memes/<int:id>')
-def delete_meme_by_id(id):
-    meme = db.session.get(Meme, id)
-    if not meme:
-        return {"error": "no meme with that ID"}, 404
-    db.session.delete(meme)
-    db.session.commit()
-    return {}, 204
-
-    # curl -X DELETE localhost:5555/Memes/22
-
-#Response routes
-@app.get('/api/responses/<int:id>')
-def get_repsponses_by_user_id(id):
-    responses = Response.query.filter(Response.contestant_id == id).all()
-    return [r.to_dict(rules = ['-meme', '-user', '-ballots']) for r in responses], 200
-
-@app.get('/api/total_responses/<int:id>')
-def get_all_unvoted_responses_for_a_user(id):
-    user = db.session.get(User, id)
-    if not user:
-        return {"error": "no response with that ID"}, 404
-    
-    # voted_responses = {b.response for b in user.ballots}
-    # all_responses = {r for m in user.memes for r in m.responses}
-    # to_respond = all_responses - voted_responses
-
-    responses_already_voted_on = []
-    for ballot in user.ballots:
-        responses_already_voted_on.append(ballot.response_id)
-
-    total_memes = []
-    for meme in user.memes:
-        total_memes.append(meme)
-    for response in user.responses:
-
-        total_memes.append(response.meme)
-
-    total_responses_to_vote_on = []
-    for meme in total_memes:
-        for response in meme.responses:
-            if not response.response == "":
-                if response.id not in responses_already_voted_on:
-                    total_responses_to_vote_on.append(response)
-
-    return [r.to_dict(rules = ['-meme', '-user', '-ballots']) for r in total_responses_to_vote_on]
-
-
-@app.patch('/api/responses/<int:id>')
-def patch_response_by_response_id(id):
-    response = db.session.get(Response, id)
-    if not response:
-        return {"error": "no response with that ID"}, 404
+#Caption Routes
+@app.post('/api/caption')
+def create_new_caption():
     try:
         data = request.json
-        for key in data:
-            setattr(response, key, data[key])
-        db.session.add(response)
+        new_caption= Caption(entry = data.get('entry'), meme_id = data.get('meme_id'), contestant_id = data.get('contestant_id'))
+        db.session.add(new_caption)
         db.session.commit()
-
-        responses = Response.query.filter(Response.meme_id == response.meme_id).all()
-        response_count = 0
-        for x in responses:
-            if not x.response == "":
-                response_count += 1
-        if response_count == len(responses):
-            meme = db.session.get(Meme, response.meme_id)
-            meme.accepting_responses = False
-            db.session.add(meme)
-            db.session.commit()
-
-        return response.to_dict(rules = ['-meme', '-user', '-ballots']), 202
+        return new_caption.to_dict(), 201
     except:
-        return { "errors": ["validation errors"] }, 400
-
-    # curl -X PATCH -H "Content-Type:application/json" -d '{"response": "testtesttest"}' localhost:5555/Responses/1
-
-@app.delete('/api/responses/<int:id>')
-def delete_response_by_id(id):
-    response = db.session.get(Response, id)
-    if not response:
-        return {"error": "no response with that ID"}, 404
-    db.session.delete(response)
-    db.session.commit()
-    return {}, 204
-
-    # curl -X DELETE localhost:5555/Responses/22
-
-#Ballot routes
-@app.get('/api/ballots/<int:id>')
-def get_ballots_by_repsonse_id(id):
-    response = db.session.get(Response, id)
-    if not response:
-        return {"error": "no response with that ID"}, 404
-    return [b.to_dict(rules = ['-voter', '-response', '-contestant_id', '-voter_id']) for b in response.ballots]
-
-@app.post('/api/ballots')
-def post_new_ballot():
-    try:
-        data = request.json
-        new_ballot = Ballot(response_id = data.get('response_id'), voter_id = data.get('voter_id'), score = data.get('score'))
-        db.session.add(new_ballot)
-        db.session.commit()
-        return new_ballot.to_dict(rules = ['-voter', '-response', '-contestant_id', '-voter_id']), 201
-    except:
-        return { "errors": ["validation errors"] }, 400
-    
-    #curl -X POST -H "Content-Type:application/json" -d '{"response_id": "1", "voter_id": "2", "score": "10"}' localhost:5555/Ballots
-
-@app.patch('/api/ballots/<int:id>')
-def patch_ballot_by_ballot_id(id):
-    ballot = db.session.get(Ballot, id)
-    if not ballot:
-        return {"error": "no response with that ID"}, 404
-    try:
-        data = request.json
-        for key in data:
-            setattr(ballot, key, data[key])
-        db.session.add(ballot)
-        db.session.commit()
-        return ballot.to_dict(rules = ['-voter', '-response', '-contestant_id', '-voter_id']), 202
-    except:
-        return { "errors": ["validation errors"] }, 400
-
-    # curl -X PATCH -H "Content-Type:application/json" -d '{"score": "1000"}' localhost:5555/Ballots/1
-
-@app.delete('/api/ballots/<int:id>')
-def delete_ballot_by_id(id):
-    ballot = db.session.get(Ballot, id)
-    if not ballot:
-        return {"error": "no response with that ID"}, 404
-    db.session.delete(ballot)
-    db.session.commit()
-    return {}, 204
-
-    # curl -X DELETE localhost:5555/Ballots/128
-
+        return {"error", "validation errors"}, 400
 
 
 # ***************Authentication GET, POST, and DELETE requests**********************

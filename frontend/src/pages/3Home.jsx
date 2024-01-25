@@ -3,34 +3,14 @@ import { NavLink } from "react-router-dom";
 import { Link } from 'react-router-dom';
 import Header from "../components/Header";
 
-import Leaderboard from "../components/Leaderboard";
-import Created_Cards from "../components/Created_Cards";
-import Caption_Cards from "../components/Caption_Card_List";
-import Friend_Cards from "../components/Friend_Cards";
-import Vote_Cards from "../components/Vote_Cards";
-import Caption_Cards_List from "../components/Caption_Card_List";
-
 
 function Home() {
-    const [userMemes, setUserMemes] = useState({})
-    const [memesToBeCaptioned, setMemesToBeCaptioned] = useState([])
-    const [memesToBeVotedOn, setMemesToBeVotedOn] = useState({})
-    const [completedMemes, setCompletedMemes] = useState([])
-    const [friends, setFriends] = useState({})
-    const [notFriends, setNotFriends] = useState({})
 
-    //fetches all info for the subsequent pages
+    const [usersMeme, setUserMemes] = useState({})
+
     useEffect(() => {
-        //fetches all memes that the user has created
-        fetch('/api/memes/user/1').then(resp => resp.json()).then(data => setUserMemes(data))
-        //fetches all memes that the user needs to caption
-        fetch('/needs_responses/1').then(resp => resp.json()).then(data => setMemesToBeCaptioned(data))
-        //fetches all memes that the user needs to vote on
-        fetch('/api/total_responses/1').then(resp => resp.json()).then(data => setMemesToBeVotedOn(data))
-        //fetches all memes that the are complete
-        fetch('/api/complete_memes/user/1').then(resp => resp.json()).then(data => setCompletedMemes(data))
-        //fetches all friends of that user
-        fetch('/api/connection/User/1').then(resp => resp.json()).then(data => setFriends(data))
+        //fetches all memes for the user
+        fetch('/api/memes/1').then(resp => resp.json()).then(data => setUserMemes(data))
     }, [])
 
     //copntrol form for new memes
@@ -52,7 +32,7 @@ function Home() {
     function handleNewMemeSubmission(e) {
         e.preventDefault()
 
-        fetch('/memes', {
+        fetch('/api/meme', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -61,6 +41,9 @@ function Home() {
         }).then(resp => resp.json())
         .then(data => console.log(data))
     }
+
+    //handles patching memes
+    '/api/meme/<int:id>'
 
     return (
         <div className = "grid_container">
@@ -80,18 +63,6 @@ function Home() {
                     </form>
                 </div>
             </div>
-            {/* <Created_Cards userMemes={userMemes}/> */}
-            <Caption_Cards_List memesToBeCaptioned = {memesToBeCaptioned}/>
-            {/* <Vote_Cards memesToBeVotedOn = {memesToBeVotedOn}/> */}
-            <div className="vote-cards-container-bigger">
-            <Vote_Cards />
-            </div>
-            <div className="leaderboard-container">
-            <Leaderboard completedMemes={completedMemes} />
-            </div>
-            {/* <Friend_Cards friends = {friends} notFriends = {notFriends}/> */}
-
-
         </div>
     );
 }

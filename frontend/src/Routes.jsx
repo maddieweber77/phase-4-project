@@ -3,12 +3,13 @@ import { createBrowserRouter } from 'react-router-dom';
 
 // Import other components after the router imports
 import App from "./App";
+import Login from "./pages/1Login";
+import Home from "./pages/3Home";
+import All_open_memes from "./pages/4All_open_memes";
+import All_finished_memes from "./pages/5All_finished_memes";
 import ErrorPage from "./pages/ErrorPage";
-import Home from "./pages/Home";
-import Login from "./pages/Login";
 import Profile from "./pages/Profile";
-import Caption_Meme from "./pages/Caption_Meme";
-import Battle_Memes from "./pages/Battle_Memes";
+
 
 async function memeLoader() {
     const resRes = await fetch("http://localhost:3000/responses")
@@ -34,21 +35,20 @@ const Routes = createBrowserRouter([
                 errorElement: <ErrorPage />
             },
             {
+                path: "/All_Open_Memes",
+                element: <All_open_memes />,
+                errorElement: <ErrorPage />
+            },
+            {
+                path: "/All_Finished_Memes",
+                element: <All_finished_memes />,
+                errorElement: <ErrorPage />
+            },
+            {
                 path: "/Profile",
                 element: <Profile />,
                 errorElement: <ErrorPage />
             },
-            {
-                path: "/Caption-Meme",
-                element: <Caption_Meme />,
-                errorElement: <ErrorPage />
-            },
-            {
-                path: "/Battle-Memes",
-                element: <Battle_Memes />,
-                errorElement: <ErrorPage />,
-                loader: memeLoader
-            }
         ]
     }
 ]);
