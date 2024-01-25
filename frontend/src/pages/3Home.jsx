@@ -45,7 +45,7 @@ function Home() {
         )      
             setUserMemes(newMemeList)
         })
-     }
+    }
 
     //creates meme cards
     const memeCardList = usersMeme.map(meme => {

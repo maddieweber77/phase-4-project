@@ -40,9 +40,6 @@ function Header(){
                 <NavLink to='/All_Finished_Memes'>
                     <button>Complete Memes</button>
                 </NavLink>
-                <NavLink to='/Profile'>
-                    <button>Profile</button>
-                </NavLink>
                 <NavLink to='/'>
                     <button onClick={logout}>Logout</button>
                 </NavLink>
