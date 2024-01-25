@@ -64,7 +64,7 @@ def post_new_meme():
 def patch_meme_by_id(id):
     meme = db.session.get(Meme, id)
     if not meme:
-         return {"error", "Meme not found"}, 404
+        return {"error", "Meme not found"}, 404
     try:
         data = request.json
         for key in data:
