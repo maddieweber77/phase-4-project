@@ -64,7 +64,7 @@ def post_new_meme():
 def patch_meme_by_id(id):
     meme = db.session.get(Meme, id)
     if not meme:
-         return {"error", "Meme not found"}, 404
+        return {"error", "Meme not found"}, 404
     try:
         data = request.json
         for key in data:
@@ -91,7 +91,7 @@ def create_new_caption():
 # ***************Authentication GET, POST, and DELETE requests**********************
 @app.get('/api/check_session')
 def check_session():
-    user = db.session.get(User, session.get(id))
+    user = db.session.get(User, session.get("user_id"))
     # print to check the session object
     print(session)
 
@@ -104,7 +104,7 @@ def check_session():
 def logout():
 
     try: 
-        session.pop(id)
+        session.pop("user_id")
         return {"Message": "Logged out"}, 200
     
     except:
