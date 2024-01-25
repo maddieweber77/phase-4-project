@@ -20,8 +20,6 @@ function Home() {
     }, [])
 
      //handles patching memes
-    '/api/meme/<int:id>'
-
     function handleVote(memeId, captionId) {
         let ballot = {
             "accepting_captions": false,
@@ -34,8 +32,20 @@ function Home() {
             },
             body: JSON.stringify(ballot)
         }).then(resp => resp.json())
-        .then(data => console.log(data))
-    }
+        .then(data => {
+            console.log(data)
+            let newMemeList = usersMeme.map(meme => {
+                if(meme.id == memeId){
+                    console.log(meme)
+                    meme.accepting_captions = false
+                    meme.winning_caption = captionId
+                }
+                return meme
+            }
+        )      
+            setUserMemes(newMemeList)
+        })
+     }
 
     //creates meme cards
     const memeCardList = usersMeme.map(meme => {
