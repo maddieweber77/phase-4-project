@@ -3,14 +3,15 @@ import { NavLink } from "react-router-dom";
 import { Link } from 'react-router-dom';
 import Header from "../components/Header";
 import Meme_Card from "../components/Meme_Card";
-import { useUser } from "../UserContext";
 import Winning_Meme_Card from "../components/Winning_Meme_Card";
+import { useUser } from "../UserContext";
 
 
 
 function Home() {
 
     const [usersMeme, setUserMemes] = useState([])
+    const {user, setUser} = useUser()
     
 
     useEffect(() => {
@@ -19,9 +20,9 @@ function Home() {
     }, [])
 
      //handles patching memes
-     '/api/meme/<int:id>'
+    '/api/meme/<int:id>'
 
-     function handleVote(memeId, captionId) {
+    function handleVote(memeId, captionId) {
         let ballot = {
             "accepting_captions": false,
             "winning_caption": captionId,
@@ -34,7 +35,7 @@ function Home() {
             body: JSON.stringify(ballot)
         }).then(resp => resp.json())
         .then(data => console.log(data))
-     }
+    }
 
     //creates meme cards
     const memeCardList = usersMeme.map(meme => {
