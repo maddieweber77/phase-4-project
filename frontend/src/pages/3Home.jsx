@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { NavLink } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { Link } from 'react-router-dom';
 import Header from "../components/Header";
 import Meme_Card from "../components/Meme_Card";
@@ -12,6 +12,7 @@ function Home() {
 
     const [usersMeme, setUserMemes] = useState([])
     const {user, setUser} = useUser()
+    
     
 
     useEffect(() => {
@@ -45,7 +46,7 @@ function Home() {
         )      
             setUserMemes(newMemeList)
         })
-     }
+    }
 
     //creates meme cards
     const memeCardList = usersMeme.map(meme => {
@@ -84,6 +85,10 @@ function Home() {
         }).then(resp => resp.json())
         .then(data => console.log(data))
     }
+
+    // if (!user) {
+    //     <Navigate to='/' />
+    // }
 
 
     return (

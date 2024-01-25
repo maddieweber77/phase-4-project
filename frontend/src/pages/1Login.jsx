@@ -4,8 +4,6 @@ import LoginForm from "../components/LoginForm";
 import { useUser } from "../UserContext";
 
 
-
-
 function Login(){
 
     const {user, setUser} = useUser()
