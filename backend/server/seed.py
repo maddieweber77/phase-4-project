@@ -1,9 +1,9 @@
-from random import randint, choice as rc
+from random import randint, choice
 
 from faker import Faker
 
 from app import app
-from models import db, User, Connection, Meme, Response, Ballot
+from models import db, User, Caption, Meme
 from flask_bcrypt import Bcrypt
 # Authentication
 
@@ -17,9 +17,8 @@ if __name__ == '__main__':
         bcrypt = Bcrypt(app)
         print("Clearing db...")
         User.query.delete()
-        Connection.query.delete()
+        Caption.query.delete()
         Meme.query.delete()
-        Response.query.delete()
 
 #seed users
         new_users = []
@@ -31,53 +30,37 @@ if __name__ == '__main__':
             db.session.add(new_user)
             new_users.append(new_user)
 
-
-#seed connections
-        conected_options = [True, False]
-        new_friends = []
-        for _ in range(20):
-
-            requestee_id = randint(1, 20)
-            acceptee_id = randint(1, 20)
-            while acceptee_id == requestee_id:
-                acceptee_id = randint(1, 20)
-
-            new_connection = Connection(status = rc(conected_options), requestee_id = requestee_id, acceptee_id = acceptee_id)
-            db.session.add(new_connection)
-            new_friends.append(new_connection)
-        db.session.commit()
-
 #seed memes
+        booleans = [True, False]
         new_memes = []
-        for x in range(21):
+        for _ in range(21):
             new_meme = Meme(
-                caption = fake.sentence(), 
+                description = fake.sentence(), 
                 img_url = 'https://cdn.britannica.com/19/213119-050-C81C786D/Grumpy-Cat-2015-memes.jpg', 
-                creator_id = x)
-            
+                creator_id = 1,
+                accepting_captions = choice(booleans)
+                )
+            db.session.add(new_meme)
+            new_memes.append(new_meme)
+        for _ in range(21):
+            new_meme = Meme(
+                description = fake.sentence(), 
+                img_url = 'https://cdn.britannica.com/19/213119-050-C81C786D/Grumpy-Cat-2015-memes.jpg', 
+                creator_id = 2,
+                accepting_captions = choice(booleans)
+                )
             db.session.add(new_meme)
             new_memes.append(new_meme)
         db.session.commit()
 
-#seed responses
-        responses = []
-        for _ in range(20):
-            creator_id = randint(1, 20)
-            meme = Meme.query.filter(Meme.creator_id == creator_id).first()
-            friends_list = Connection.query.filter(Connection.requestee_id == creator_id).all()
-            for connection in range(len(friends_list)):
-                new_response = Response(meme_id = meme.id, contestant_id = friends_list[connection].id, response = fake.sentence(), score = randint(0, 5))
-                db.session.add(new_response)
-                responses.append(new_response)
-        db.session.commit()
-
-#seed ballots
-        ballots = []
-        for x in range(len(responses)):
-            for _ in range(3):
-                new_ballot = Ballot(response_id = responses[x].id, voter_id = randint(1, 21), score = randint(1, 5))
-                db.session.add(new_ballot)
-                responses.append(new_response)
+#seed captions 
+        for _ in range(21):
+            new_caption = Caption(
+                entry = fake.sentence(),
+                meme_id = 1,
+                contestant_id = randint(1, 20)
+            )
+            db.session.add(new_caption)
         db.session.commit()
 
         print("Seeding complete..")

@@ -18,89 +18,51 @@ class User(db.Model, SerializerMixin):
     user_name = db.Column(db.String, nullable = False)
     password_hash = db.Column(db.String)
     profile_picture = db.Column(db.String, default = 'https://i.pinimg.com/736x/87/14/55/8714556a52021ba3a55c8e7a3547d28c.jpg')
-    total_points = db.Column(db.Integer, default = 0)
 
-    memes = db.relationship("Meme", back_populates = 'creator', cascade = 'all, delete-orphan')
-    responses = db.relationship("Response", back_populates = 'user', cascade = 'all, delete-orphan')
-    ballots = db.relationship('Ballot', back_populates='voter', cascade = 'all, delete-orphan')
+    memes = db.relationship('Meme', back_populates = 'user', cascade = 'all, delete-orphan')
+    captions = db.relationship('Caption', back_populates = 'user', cascade = 'all, delete-orphan')
 
-    serialize_rules = ['-memes', '-responses', '-password', '-ballots']
+    serialize_rules = ['-memes.user', '-memes.captions', '-caption.meme', '-caption.user']
+
 
     def __repr__(self):
         return f'<User {self.id}>'
 
-
-class Connection(db.Model, SerializerMixin):
-    __tablename__ = "connections"
-
-    id = db.Column(db.Integer, primary_key = True)
-    status = db.Column(db.Boolean, default = False)
-    requestee_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-    acceptee_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-
-    requestee = db.relationship("User", foreign_keys=[requestee_id])
-    acceptee = db.relationship("User", foreign_keys=[acceptee_id])
-
-    def __repr__(self):
-        return f'<Connection {self.id}>'
-
-
 class Meme(db.Model, SerializerMixin):
-    __tablename__ = "memes"
+    __tablename__ = 'memes'
 
     id = db.Column(db.Integer, primary_key = True)
-    caption = db.Column(db.String, nullable = False)
-    img_url = db.Column(db.String, nullable = False)
+    img_url = db.Column(db.String)
+    description = db.Column(db.String)
+    accepting_captions = db.Column(db.Boolean, default = True)
+    winning_caption = db.Column(db.Integer, nullable = True)
     creator_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-    accepting_responses = db.Column(db.Boolean, default = True)
-    accepting_votes = db.Column(db.Boolean, default = False)
 
+    user = db.relationship('User', back_populates = 'memes')
+    captions = db.relationship('Caption', back_populates = 'meme', cascade = 'all, delete-orphan')
 
-    creator = db.relationship("User", back_populates = 'memes')
-    responses = db.relationship('Response', back_populates = 'meme', cascade = 'all, delete-orphan')
-
-    serialize_rules = ['-creator', '-responses']
+    serialize_rules = ['-user.memes', '-user.captions', '-captions.meme', '-captions.user']
 
     def __repr__(self):
         return f'<Meme {self.id}>'
-
-
-
-class Response(db.Model, SerializerMixin):
-    __tablename__ = "responses"
-
+    
+class Caption(db.Model, SerializerMixin):
+    __tablename__ = 'captions'
+     
     id = db.Column(db.Integer, primary_key = True)
+    entry = db.Column(db.String, nullable = False)
     meme_id = db.Column(db.Integer, db.ForeignKey('memes.id'))
     contestant_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-    response = db.Column(db.String, default = "")
-    score = db.Column(db.Integer, default = 0)
 
-    meme = db.relationship('Meme', back_populates = 'responses')
-    user = db.relationship('User', back_populates = 'responses')
-    ballots = db.relationship('Ballot', back_populates = 'response', cascade = 'all, delete-orphan')
+    meme = db.relationship('Meme', back_populates = 'captions')
+    user = db.relationship('User', back_populates = 'captions')
 
-
-    serialize_rules = ['-meme', '-user', 'ballots']
-
+    serialize_rules = ['-meme.user', '-meme.captions', '-user.memes', '-user.captions']
 
     def __repr__(self):
-        return f'<Response {self.id}>'
-
-class Ballot(db.Model, SerializerMixin):
-    __tablename__ = "ballots"
-
-    id = db.Column(db.Integer, primary_key = True)
-    response_id = db.Column(db.Integer, db.ForeignKey('responses.id'))
-    voter_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-    score = db.Column(db.Integer, default = 0)
-
-    response = db.relationship('Response', back_populates='ballots')
-    voter = db.relationship('User', back_populates='ballots')
+        return f'<Caption {self.id}>'
 
 
-    serialize_rules = ['-response', '-voter']
 
-    def __repr__(self):
-        return f'<Ballot {self.id}>'
 
 
