@@ -15,7 +15,7 @@ function Caption({caption, handleVote}) {
 
     return(
         <>
-            <p className = {'caption'} onMouseEnter = {handleMouseEnter} onMouseLeave = {handleMouseLeave} onClick = {() => handleVote(caption.meme_id, caption.id)}>{memeCaption}</p>
+            <p className = {'caption active_caption'} onMouseEnter = {handleMouseEnter} onMouseLeave = {handleMouseLeave} onClick = {() => handleVote(caption.meme_id, caption.id)}>{memeCaption}</p>
         </>
     )
 }

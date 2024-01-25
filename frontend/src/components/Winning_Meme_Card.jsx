@@ -16,8 +16,8 @@ function Winning_Meme_Card({meme}) {
         <div className="meme_card">
             <h3 className="meme_description">{meme.description}</h3>
             <div>
-                <img className = "meme_img" src = {meme.img_url}/>
                 <p className = "response-overlay">{winningMemeText}</p>
+                <img className = "meme_img" src = {meme.img_url}/>
             </div>
         </div>
     )

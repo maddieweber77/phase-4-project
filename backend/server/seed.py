@@ -31,7 +31,6 @@ if __name__ == '__main__':
             new_users.append(new_user)
 
 #seed memes
-        booleans = [True, False]
         new_memes = []
         for _ in range(21):
             new_meme = Meme(
@@ -48,6 +47,7 @@ if __name__ == '__main__':
                 img_url = 'https://cdn.britannica.com/19/213119-050-C81C786D/Grumpy-Cat-2015-memes.jpg', 
                 user_id = 2,
                 accepting_captions = choice(booleans)
+
                 )
             db.session.add(new_meme)
             new_memes.append(new_meme)
