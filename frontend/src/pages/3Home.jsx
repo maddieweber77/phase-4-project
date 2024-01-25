@@ -3,6 +3,7 @@ import { NavLink } from "react-router-dom";
 import { Link } from 'react-router-dom';
 import Header from "../components/Header";
 import Meme_Card from "../components/Meme_Card";
+import Winning_Meme_Card from "../components/Winning_Meme_Card";
 
 
 function Home() {
@@ -14,17 +15,38 @@ function Home() {
         fetch('/api/memes/1').then(resp => resp.json()).then(data => setUserMemes(data))
     }, [])
 
-    console.log(usersMeme)
+     //handles patching memes
+     '/api/meme/<int:id>'
+
+     function handleVote(memeId, captionId) {
+        let ballot = {
+            "accepting_captions": false,
+            "winning_caption": captionId,
+        }
+        fetch(`/api/meme/${memeId}`, {
+            method: "PATCH",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(ballot)
+        }).then(resp => resp.json())
+        .then(data => console.log(data))
+     }
 
     //creates meme cards
-    const memeCardList = usersMeme.map(meme => <Meme_Card key = {meme.id} meme = {meme}/>)
+    const memeCardList = usersMeme.map(meme => {
+        if (meme.accepting_captions == false) {
+            return <Winning_Meme_Card key = {meme.id} meme = {meme}/>}
+
+        if (meme.accepting_captions == true) {
+            return <Meme_Card key = {meme.id} meme = {meme} handleVote = {handleVote}/>}
+        })
 
     //copntrol form for new memes
     //!! Need to updated user idea to be ID of logged in user
     const [newMeme, setNewMeme] = useState({
-        "name": "",
         "img_url" : "",
-        "caption" : "",
+        "desciption" : "",
         "creator_id" : "1"
     })
 
@@ -48,24 +70,24 @@ function Home() {
         .then(data => console.log(data))
     }
 
-    //handles patching memes
-    '/api/meme/<int:id>'
 
     return (
         <div>
             <Header />
             <div className="meme_creator">
-                <h1>Add a Meme!</h1>
+                <h1 className="meme_creator_title">Add a Meme!</h1>
                 <div className="meme_creator_container">
                     <img id = "img_creator_meme" src = {newMeme.img_url != "" ? newMeme.img_url : "https://i.imgflip.com/3u04h5.jpg?a473832"}/>
                     <form className = "new_meme_submission_form" onSubmit = {handleNewMemeSubmission}>
-                        <label htmlFor="img_url">Meme Image URL</label>
-                        <input id="img_url" type="text" onChange = {handleNewMemeInputs} value = {newMeme.img_url}/>
-                        <label htmlFor="name">Name Meme</label>
-                        <input id="name" type="text" onChange = {handleNewMemeInputs} value = {newMeme.name}/>
-                        <label htmlFor="caption">Meme Caption</label>
-                        <input id="caption" type="text" onChange = {handleNewMemeInputs} value = {newMeme.caption}/>
-                        <input type = "submit" />
+                        <div className = "entry_field">
+                            <label htmlFor="img_url">Meme Image URL</label>
+                            <input id="img_url" type="text" onChange = {handleNewMemeInputs} value = {newMeme.img_url}/>
+                        </div>
+                        <div className = "entry_field">
+                            <label htmlFor="description">Meme Description</label>
+                            <input id="description" type="text" onChange = {handleNewMemeInputs} value = {newMeme.caption}/>
+                        </div>
+                        <input className = "new_meme_submit" type = "submit" />
                     </form>
                 </div>
             </div>
