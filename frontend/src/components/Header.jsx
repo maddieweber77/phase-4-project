@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { NavLink, Navigate } from "react-router-dom";
 import { useUser } from "../UserContext";
 
@@ -8,20 +8,35 @@ function Header(){
 
     const {user, setUser} = useUser()
 
+    const [loggedOut, setLoggedOut] = useState(false)
+
+
     // Will likely have to move logout function to Login or Home
     // Set up handleClickLogout function
     // need to pass down setUser
 
     function logout() {
-        fetch(`/api/logout`, { method: "DELETE" }).then((res) => {
-            if (res.ok) {
-                setUser(null);
-            }
-        });
+        fetch('/api/logout', { method: "DELETE" })
+            .then((res) => {
+                console.log(res)
+                console.log(user)
+                if (res.ok) {
+                    setUser(null);
+                    setLoggedOut(true);
+                    console.log(loggedOut);
+                } else {
+                    throw new Error("Logout failed");
+                }
+            })
+            .catch((error) => {
+                console.error("Logout error:", error);
+            });
+    
+        if (loggedOut){ 
+            return <Navigate to='/' />};
     }
-    if (null) {
-        <Navigate to='/' />
-    }
+    
+    
 
     return(
         <div className="header-div">
