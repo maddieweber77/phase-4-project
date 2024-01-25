@@ -3,12 +3,15 @@ import { NavLink } from "react-router-dom";
 import { Link } from 'react-router-dom';
 import Header from "../components/Header";
 import Meme_Card from "../components/Meme_Card";
+import { useUser } from "../UserContext";
 import Winning_Meme_Card from "../components/Winning_Meme_Card";
+
 
 
 function Home() {
 
     const [usersMeme, setUserMemes] = useState([])
+    
 
     useEffect(() => {
         //fetches all memes for the user
@@ -56,8 +59,9 @@ function Home() {
     //!! Need to updated user idea to be ID of logged in user
     const [newMeme, setNewMeme] = useState({
         "img_url" : "",
-        "desciption" : "",
-        "creator_id" : "1"
+
+        "caption" : "",
+        "user_id" : "1"
     })
 
     function handleNewMemeInputs(e) {
