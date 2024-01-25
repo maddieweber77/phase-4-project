@@ -68,7 +68,6 @@
   font-family: impact;
 
   position: absolute;
-  bottom: -40%;
   left: 50%;
   transform: translateX(-50%);
   padding: 5px;
@@ -158,6 +157,24 @@
   color: black;
 }
 
-.caption:hover {
+.active_caption:hover {
   background-color: grey;
+}
+
+/* creating new caption */
+.new_caption_form {
+  height: 25px;
+  background-color: white;
+  color: black;
+  margin-right: 20%;
+  margin-left: 20%;
+  text-align: center;
+  border-radius: 5px;
+  width: 60%;
+  padding: 4px;
+  margin-bottom: 10px;
+}
+
+.new_caption_form input{
+  margin: 0px;
 }
