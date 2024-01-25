@@ -16,7 +16,7 @@ let complete_memes = allFinishedMemes.map(meme => <Winning_Meme_Card key = {meme
     return (
         <>
             <Header />
-            {complete_memes}
+            {complete_memes.reverse()}
         </>
     )
     }

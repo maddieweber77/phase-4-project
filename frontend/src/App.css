@@ -8,21 +8,33 @@
 
 /* HEADER */
 .header-div {
+  display: flex;
+  justify-content: space-between;
   top: 0%;
-  width: 100%;
-  padding: 1rem;
-}
+  width: 100%;}
 
 #app-title {
   font-size: 2.0em;
+  align-self: center;
+  position: absolute;
+  margin-left: 45%;
+  margin-right: 45%;
 }
 
-.card {
-  padding: 2em;
+.nav_user_info {
+  text-align: center;
 }
 
-.read-the-docs {
-  color: #888;
+.nav_user_info h3 {
+  margin: 0;
+}
+
+.nav_img {
+  height: 150px;
+}
+
+.div_buttons button{
+  margin: 5px;
 }
 
 
@@ -75,6 +87,24 @@
   white-space: wrap;
 }
 
+@media (max-width: 480px) { 
+  .response-overlay {
+    font-size: 12px;
+  }
+
+  .meme_creator_title{
+    font-size: 15px;
+  }
+
+  #app-title {
+    display: none;
+  }
+
+  .entry_field {
+    margin: 0px;
+  }
+}
+
 
 /* submit new meme */
 .meme_creator {
@@ -88,6 +118,7 @@
   border-radius: 5px;
   text-align: center;
   border-color: black;
+  background-color: white;
 }
 
 .meme_creator_title{
@@ -99,9 +130,16 @@
   height: 600px;
 }
 
+@media (max-width: 480px) { 
+  #img_creator_meme {
+    height: 150px;
+    width: auto;
+  }
+ }
+
 .entry_field {
-  background-color: white;
-  color: black;
+  background-color: black;
+  color: white;
   width: 30%;
   margin-left: 35%;
   margin-right: 35%;
@@ -131,6 +169,7 @@
   border-radius: 5px;
   text-align: center;
   border-color: black;
+  background-color: white;
 }
 
 .meme_description {
@@ -146,19 +185,27 @@
   width: auto;
 }
 
+@media (max-width: 480px) { 
+  .meme_img {
+    height: 150px;
+    width: auto;
+  }
+ }
+
 .caption {
   margin-right: 20%;
   margin-left: 20%;
   padding: 4px;
   text-align: center;
   width: 60%;
-  background-color: white;
+  background-color: black;
   border-radius: 5px;
-  color: black;
+  color: white;
 }
 
 .active_caption:hover {
   background-color: grey;
+  cursor: pointer;
 }
 
 /* creating new caption */
