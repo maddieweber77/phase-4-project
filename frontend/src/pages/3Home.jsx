@@ -20,7 +20,7 @@ function Home() {
     }, [])
 
      //handles patching memes
-     function handleVote(memeId, captionId) {
+    function handleVote(memeId, captionId) {
         let ballot = {
             "accepting_captions": false,
             "winning_caption": captionId,
