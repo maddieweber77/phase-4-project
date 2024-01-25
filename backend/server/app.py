@@ -150,7 +150,7 @@ def get_memes_by_creator_id(id):
 @app.get('/api/complete_memes/user/<int:id>')
 def get_complete_memes_by_creator_id(id):
     memes = []
-    for meme in Meme.query.filter(Meme.creator_id == id).all():
+    for meme in Meme.query.filter(Meme.creator_id == session.get('user_id')).all():
         if meme.accepting_responses == False and meme.accepting_votes == False:
             memes.append(meme.to_dict(rules = ['-creator', '-responses']))
     return memes, 200
@@ -343,7 +343,7 @@ def delete_ballot_by_id(id):
 # ***************Authentication GET, POST, and DELETE requests**********************
 @app.get('/api/check_session')
 def check_session():
-    user = db.session.get(User, session.get(id))
+    user = db.session.get(User, session.get("user_id"))
     # print to check the session object
     print(session)
 
@@ -356,7 +356,7 @@ def check_session():
 def logout():
 
     try: 
-        session.pop(id)
+        session.pop("user_id")
         return {"Message": "Logged out"}, 200
     
     except:
