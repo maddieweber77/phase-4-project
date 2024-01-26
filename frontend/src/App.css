@@ -183,12 +183,42 @@
 .meme_img {
   height: 600px;
   width: auto;
+  max-width: 800px
 }
 
 @media (max-width: 480px) { 
   .meme_img {
     height: 150px;
     width: auto;
+    max-width: 200px
+  }
+
+  .new_meme_submission_form {
+    /* display: flex;
+    flex-wrap: wrap;
+    margin: auto; */
+  }
+
+  .entry_field {
+    display: block;
+    height: auto;
+    margin: auto;
+
+  }
+
+  .entry_field input{
+    display: block;
+    width: 100px;
+  }
+
+  .entry_field label{
+    display:block;
+    margin-bottom: 5px;
+  }
+
+  .new_meme_submit{
+    margin-left: 40%;
+    margin-right: 40%;
   }
  }
 
